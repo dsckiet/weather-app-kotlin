@@ -62,6 +62,14 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
     implementation("com.google.android.gms:play-services-oss-licenses:17.0.0")
+    //location
+    implementation "com.google.android.gms:play-services-location:17.0.0"
+    //retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    //moshi
+    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
 
 }
 apply plugin: 'com.android.application'

@@ -12,30 +12,44 @@
             android:text="About Us"
             android:textSize="50sp"
             android:layout_marginTop="50dp"
-            android:textStyle="bold"/>
+            android:textStyle="italic"/>
         <TextView
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/heading"
-            android:text="Something about app"
-            android:layout_marginTop="10dp"
-            android:textSize="20sp"/>
+            android:text="@string/forecast"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="12dp"
+            android:textStyle="italic"
+            android:textSize="18sp"/>
         <ImageView
             android:id="@+id/aboutimg"
             android:layout_width="match_parent"
             android:layout_height="280dp"
             android:layout_below="@id/text"
             android:src="@drawable/ic_weather"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="25dp"/>
         <TextView
+            android:id="@+id/madeby"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/aboutimg"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="90dp"
             android:text="Made by "
+            android:textStyle="italic"
             android:textSize="20sp"
             android:layout_centerHorizontal="true"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/madeby"
+        android:layout_marginTop="10dp"
+        android:textStyle="italic"
+        android:text="Rishabh Jain &amp; Ananya Punia"
+        android:textSize="20sp"/>
 
     </RelativeLayout>

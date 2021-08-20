@@ -7,15 +7,15 @@
 
     </data>
 
-
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -23,40 +23,52 @@
                 style="@style/Widget.MaterialComponents.AppBarLayout.PrimarySurface"
                 android:fitsSystemWindows="true">
 
-                <com.google.android.material.appbar.MaterialToolbar
+                <androidx.appcompat.widget.Toolbar
                     android:id="@+id/topAppBar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:title="Weather App"
                     app:navigationIcon="@drawable/ic_icon"
-                    style="@style/Widget.MaterialComponents.Toolbar.PrimarySurface"
                     android:background="@android:color/transparent"
-                    android:elevation="0dp" />
+                    android:elevation="0dp" >
+                    <TextView
+                        android:id="@+id/txtlocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Location"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="75dp"
+                        android:textColor="@color/white"
+                        />
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/locate"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="12dp"/>
+                </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.AppBarLayout>
 
 
 
         <fragment
-            android:layout_below="@id/topview"
+
             android:id="@+id/navHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:navGraph="@navigation/nav_graph"
             android:name="androidx.navigation.fragment.NavHostFragment"
             app:defaultNavHost="true" />
-        </RelativeLayout>
+        </LinearLayout>
 
 
         <com.google.android.material.navigation.NavigationView
-            android:layout_width="270dp"
+            android:layout_width="280dp"
             android:layout_height="match_parent"
             android:id="@+id/nav_view"
             app:headerLayout="@layout/header"
             android:layout_gravity="start"
             app:menu="@menu/menu" />
-
-
 
     </androidx.drawerlayout.widget.DrawerLayout>
 
