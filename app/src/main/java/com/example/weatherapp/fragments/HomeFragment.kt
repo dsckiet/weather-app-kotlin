@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weatherapp.R
+import com.example.weatherapp.adapter.ViewPagerAdapter
+import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.fragment_home.view.*
 
 class HomeFragment : Fragment() {
 
@@ -16,7 +19,24 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val view =  inflater.inflate(R.layout.fragment_home, container, false)
+        val tabLayout = view.tabLay
+        val viewPager = view.viewPagerLay
+
+        val adapter = ViewPagerAdapter(requireActivity().supportFragmentManager,lifecycle)
+        viewPager.adapter = adapter
+        TabLayoutMediator(tabLayout,viewPager) { tab, position ->
+            when (position) {
+                0 -> {
+                    tab.text = "Today"
+                }
+                1 -> {
+                    tab.text = "7 Days"
+                }
+            }
+        }.attach()
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
