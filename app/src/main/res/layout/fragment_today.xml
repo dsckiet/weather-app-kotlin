@@ -88,7 +88,7 @@
                             android:src="@drawable/sunrise"
                             app:tint="#FFFFFF" />
 
-                        <Space
+                        <androidx.legacy.widget.Space
                             android:layout_width="wrap_content"
                             android:layout_height="5dp" />
 
@@ -125,7 +125,7 @@
                             android:src="@drawable/sunset"
                             app:tint="#FFFFFF" />
 
-                        <Space
+                        <androidx.legacy.widget.Space
                             android:layout_width="wrap_content"
                             android:layout_height="5dp" />
 
@@ -161,7 +161,7 @@
                             android:src="@drawable/humidity"
                             app:tint="#FFFFFF" />
 
-                        <Space
+                        <androidx.legacy.widget.Space
                             android:layout_width="wrap_content"
                             android:layout_height="5dp" />
 
@@ -205,7 +205,7 @@
                             android:src="@drawable/wind"
                             app:tint="#FFFFFF" />
 
-                        <Space
+                        <androidx.legacy.widget.Space
                             android:layout_width="wrap_content"
                             android:layout_height="5dp" />
 
@@ -241,7 +241,7 @@
                             android:src="@drawable/uvi"
                             app:tint="#FFFFFF" />
 
-                        <Space
+                        <androidx.legacy.widget.Space
                             android:layout_width="wrap_content"
                             android:layout_height="5dp" />
 
@@ -277,7 +277,7 @@
                             android:src="@drawable/pressure"
                             app:tint="#FFFFFF" />
 
-                        <Space
+                        <androidx.legacy.widget.Space
                             android:layout_width="wrap_content"
                             android:layout_height="5dp" />
 

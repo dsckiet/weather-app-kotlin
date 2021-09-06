@@ -6,26 +6,20 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <TextView
+            android:id="@+id/searchCity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginRight="13dp"
+            android:layout_marginBottom="13dp"
             android:text="location"
-            android:textSize="24sp"
-            android:layout_margin="13dp"/>
-        <TextView
-            android:id="@+id/temp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="29"
-            android:textSize="24sp"
-            android:layout_margin="13dp"/>
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/weather"
-            android:layout_toLeftOf="@id/temp"
-            android:layout_marginTop="13dp"/>
+            android:textSize="24sp" />
+
 
     </RelativeLayout>
 
