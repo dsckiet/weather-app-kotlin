@@ -56,7 +56,7 @@ class TodayFragment : Fragment() {
            binding.windDirection.text = "${it.current.wind_deg}°"
 
            binding.recyclerV.apply {
-               layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+               layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,  false)
                weatherAdapter = WeatherRecyclerAdapter(requireContext())
                adapter = weatherAdapter
                weatherAdapter.setWeather(listOfWeatherHourly)

@@ -26,15 +26,31 @@
                 android:layout_height="wrap_content"
                 android:fitsSystemWindows="true">
 
-                <com.google.android.material.appbar.MaterialToolbar
+                <androidx.appcompat.widget.Toolbar
                     android:id="@+id/topAppBar"
-                    style="@style/Widget.MaterialComponents.Toolbar.PrimarySurface"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@android:color/transparent"
-                    android:elevation="0dp"
                     app:navigationIcon="@drawable/ic_icon"
-                    app:title="Weather App" />
+                    style="@style/Widget.MaterialComponents.AppBarLayout.PrimarySurface"
+                    android:background="@android:color/transparent"
+                    android:elevation="0dp" >
+                    <TextView
+                        android:id="@+id/txtlocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Weather App"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="75dp"
+                        android:textColor="@color/white"
+                        />
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/locate"
+                        android:shadowColor="@color/white"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="12dp"/>
+                </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.AppBarLayout>
 
