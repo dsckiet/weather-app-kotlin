@@ -12,14 +12,14 @@ import com.bumptech.glide.Glide
 import com.example.weatherapp.R
 import com.example.weatherapp.dataClass.HourlyWeatherListType
 
-class WeatherRecyclerAdapter(private val context: Context) :
-    RecyclerView.Adapter<WeatherRecyclerAdapter.WeatherViewHolder>() {
+class TodayWeatherRecyclerAdapter(private val context: Context) :
+    RecyclerView.Adapter<TodayWeatherRecyclerAdapter.WeatherViewHolder>() {
     //    private var items: List<Story> = ArrayList()
     var listOfWeatherHourly: ArrayList<HourlyWeatherListType> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherViewHolder {
         return WeatherViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.weather_list_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.today_list_item, parent, false)
         )
     }
 
