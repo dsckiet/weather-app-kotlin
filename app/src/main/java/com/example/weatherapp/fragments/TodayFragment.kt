@@ -6,17 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.newzify.viewModel.MainViewModel
 import com.example.weatherapp.R
-import com.example.weatherapp.adapter.WeatherRecyclerAdapter
+import com.example.weatherapp.adapter.TodayWeatherRecyclerAdapter
 import com.example.weatherapp.dataClass.HourlyWeatherListType
 import com.example.weatherapp.databinding.FragmentTodayBinding
+import com.example.weatherapp.viewModel.MainViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -24,8 +22,9 @@ import kotlin.collections.ArrayList
 class TodayFragment : Fragment() {
 
     private val viewModel: MainViewModel by viewModels()
-    private lateinit var weatherAdapter: WeatherRecyclerAdapter
-    var listOfWeatherHourly: ArrayList<HourlyWeatherListType> = ArrayList()
+    private lateinit var todayWeatherAdapter: TodayWeatherRecyclerAdapter
+    var todayWeatherHourly: ArrayList<HourlyWeatherListType> = ArrayList()
+    var tomorrowWeatherHourly: ArrayList<HourlyWeatherListType> = ArrayList()
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -36,9 +35,16 @@ class TodayFragment : Fragment() {
         val binding: FragmentTodayBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_today, container, false)
         val view = binding.root
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+        binding.lottie.visibility = View.VISIBLE
+
        viewModel.getWeatherHourly().observe(viewLifecycleOwner, Observer {
-           listOfWeatherHourly.clear()
-           listOfWeatherHourly = it.hourlyWeatherList as ArrayList<HourlyWeatherListType>
+           todayWeatherHourly.clear()
+           tomorrowWeatherHourly.clear()
+           todayWeatherHourly = it.todayHourly as ArrayList<HourlyWeatherListType>
+           tomorrowWeatherHourly = it.tomorrowHourly as ArrayList<HourlyWeatherListType>
 
            binding.currentTemp.text = it.temp
            binding.feelsLikeTemp.text = it.feelsLikeTemp
@@ -56,11 +62,19 @@ class TodayFragment : Fragment() {
            binding.windDirection.text = "${it.current.wind_deg}°"
 
            binding.recyclerV.apply {
-               layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,  false)
-               weatherAdapter = WeatherRecyclerAdapter(requireContext())
-               adapter = weatherAdapter
-               weatherAdapter.setWeather(listOfWeatherHourly)
+               layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+               todayWeatherAdapter = TodayWeatherRecyclerAdapter(requireContext())
+               adapter = todayWeatherAdapter
+               todayWeatherAdapter.setWeather(todayWeatherHourly)
            }
+
+           binding.recyclerV2.apply {
+               layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+               todayWeatherAdapter = TodayWeatherRecyclerAdapter(requireContext())
+               adapter = todayWeatherAdapter
+               todayWeatherAdapter.setWeather(tomorrowWeatherHourly)
+           }
+
        })
 
 

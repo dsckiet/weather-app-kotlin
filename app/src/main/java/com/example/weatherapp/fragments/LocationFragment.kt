@@ -15,9 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
 import com.example.weatherapp.adapter.LocateAdapter
 import com.example.weatherapp.databinding.FragmentLocationBinding
-import com.example.weatherapp.dataclass.LocalNamesX
-import com.example.weatherapp.dataclass.Locations
-import com.example.weatherapp.dataclass.LocationsItem
+import com.example.weatherapp.dataClass.LocalNamesX
+import com.example.weatherapp.dataClass.LocationsItem
 import com.example.weatherapp.viewModel.LocationViewModel
 import kotlinx.android.synthetic.main.search.*
 import retrofit2.Call
@@ -55,19 +54,19 @@ class LocationFragment : Fragment(), SearchView.OnQueryTextListener {
         locateAdapter = LocateAdapter(requireContext())
         searchRView.adapter = locateAdapter
 
-        locateAdapter.notifyDataSetChanged()
-
         LviewModel.cityName.observe(viewLifecycleOwner,{
-            val temp = LocationsItem("ghaziabad",
-                0.0,
-                LocalNamesX("ghaziabad","ghaziabad","ghaziabad"),
-                0.0,
-                "ghaziabad")
-            location_item.clear()
-//            location_item = it.Locations as ArrayList<LocationsItem>
-            location_item.add(temp)
-//            Log.d("batao", it!!.toString())
-            locateAdapter.setCity(location_item)
+//            val temp = LocationsItem("ghaziabad",
+//                0.0,
+//                LocalNamesX("ghaziabad","ghaziabad","ghaziabad"),
+//                0.0,
+//                "ghaziabad")
+//            location_item.clear()
+////            location_item = it.Locations as ArrayList<LocationsItem>
+//            location_item.add(temp)
+////            Log.d("batao", it!!.toString())
+            if(it!=null) {
+                locateAdapter.setCity(it)
+            }
 
         })
         searchView.setOnClickListener { searchView.isIconified = false }

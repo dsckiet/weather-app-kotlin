@@ -7,14 +7,15 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLay"
-        app:tabIndicatorColor="@color/white"
-        app:tabIndicatorHeight="2dp"
-        app:tabSelectedTextColor="@color/white"
-        app:tabTextColor="#b2b2b2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/tabColor"
         android:contentDescription="@string/appbar_scrolling_view_behavior"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        app:tabIndicatorColor="@color/white"
+        android:elevation="2dp"
+        app:tabIndicatorHeight="2dp"
+        app:tabSelectedTextColor="@color/tabColorSelected"
+        app:tabTextColor="@color/tabColorUnselected" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPagerLay"

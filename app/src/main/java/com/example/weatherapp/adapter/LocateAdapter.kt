@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
-import com.example.weatherapp.dataclass.Locations
-import com.example.weatherapp.dataclass.LocationsItem
+import com.example.weatherapp.dataClass.LocationsItem
 
 class LocateAdapter(requireContext: Context) :
     RecyclerView.Adapter<LocateAdapter.LocateViewHolder>() {

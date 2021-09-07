@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:text="18°C"
-        android:textColor="@color/white"
+        android:textColor="@color/todayScreenText"
         app:layout_constraintEnd_toEndOf="@+id/weather_image"
         app:layout_constraintStart_toStartOf="@+id/weather_image"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +22,6 @@
         android:layout_height="50dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="25dp"
-        android:src="#FCF375C9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/temperatureText" />
 
@@ -32,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:text="6:30 am"
-        android:textColor="@color/white"
+        android:textColor="@color/todayScreenText"
         app:layout_constraintEnd_toEndOf="@+id/weather_image"
         app:layout_constraintStart_toStartOf="@+id/weather_image"
         app:layout_constraintTop_toBottomOf="@id/weather_image" />

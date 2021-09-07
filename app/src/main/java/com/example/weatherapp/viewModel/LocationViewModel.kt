@@ -4,9 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.weatherapp.dataclass.Locations
-import com.example.weatherapp.dataclass.LocationsItem
-import com.example.weatherapp.dataclass.Test
+import com.example.weatherapp.dataClass.Locations
 import com.example.weatherapp.repository.LocationRepo
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,7 +16,6 @@ class LocationViewModel constructor(application: Application) : AndroidViewModel
     val repoInstance = LocationRepo(application)
     lateinit var city: Call<Locations>
     val cityName = MutableLiveData<Locations>()
-    lateinit var name : MutableLiveData<Test>
 
     init {
         Log.d("flow", "init")

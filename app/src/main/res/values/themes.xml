@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.WeatherApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#122259</item>
-        <item name="colorPrimaryVariant">#122259</item>
+        <item name="colorPrimary">@color/primaryC</item>
+        <item name="colorPrimaryVariant">@color/primaryC</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
