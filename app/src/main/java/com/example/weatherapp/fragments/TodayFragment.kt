@@ -39,6 +39,7 @@ class TodayFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         binding.lottie.visibility = View.VISIBLE
+
        viewModel.getWeatherHourly().observe(viewLifecycleOwner, Observer {
            todayWeatherHourly.clear()
            tomorrowWeatherHourly.clear()

@@ -69,6 +69,9 @@ dependencies {
 
     implementation("com.google.android.gms:play-services-oss-licenses:17.0.0")
 
+    //location
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+
     //moshi
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
     //retrofit
