@@ -29,9 +29,9 @@ class FeedbackFragment : Fragment() {
         ratingBar.rating = 2.5f
         ratingBar.stepSize = .5f
 
-        ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
-            Toast.makeText(context, "Rating = $rating", Toast.LENGTH_SHORT).show()
-        }
+//        ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
+//            Toast.makeText(context, "Rating = $rating", Toast.LENGTH_SHORT).show()
+//        }
     }
 
 }

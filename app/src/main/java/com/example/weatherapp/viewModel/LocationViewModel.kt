@@ -4,7 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.weatherapp.dataClass.Locations
+import com.example.weatherapp.dataClass.SearchLocationsItem
 import com.example.weatherapp.repository.LocationRepo
 import retrofit2.Call
 import retrofit2.Callback
@@ -13,39 +13,44 @@ import retrofit2.Response
 class LocationViewModel constructor(application: Application) : AndroidViewModel(application) {
 
 
+
     val repoInstance = LocationRepo(application)
-    lateinit var city: Call<Locations>
-    val cityName = MutableLiveData<Locations>()
+    lateinit var city: Call<List<SearchLocationsItem>>
+    val cityName = MutableLiveData<List<SearchLocationsItem>>()
 
     init {
+
         Log.d("flow", "init")
+
     }
 
-    fun getCity(cities : String): MutableLiveData<Locations> {
+    fun getCityName(cities : String): MutableLiveData<List<SearchLocationsItem>> {
         this.city = repoInstance.getServicesApiCall(cities)
-        city.enqueue(object : Callback<Locations> {
+        city.enqueue(object : Callback<List<SearchLocationsItem>> {
 
             override fun onResponse(
-                call: Call<Locations>,
-                response: Response<Locations>
+                call: Call<List<SearchLocationsItem>>,
+                response: Response<List<SearchLocationsItem>>
             ) {
 //                val city = response.body()
-//                cityName as MutableList<Locations>
+                Log.d("rsp", response.toString())
+//                if(city!=null){
+//                    val name = (city.name).toString()
+//                    val lat = (city.lat).toDouble()
+//                    val lon = (city.lon).toDouble()
+////                    cityName.value = Values(name, lat, lon)
+//                }
                 cityName.value = response.body()
-//                cityName.value = Locations()
-                Log.d("error", cityName.value.toString())
             }
 
-            override fun onFailure(call: Call<Locations>, t: Throwable) {
+            override fun onFailure(call: Call<List<SearchLocationsItem>>, t: Throwable) {
                 Log.d("err", "Failure", t)
             }
-
-
-
         })
 
         return cityName
     }
 
 }
+
 

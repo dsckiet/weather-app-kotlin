@@ -8,35 +8,37 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
-import com.example.weatherapp.dataClass.LocationsItem
+import com.example.weatherapp.dataClass.SearchLocationsItem
 
 class LocateAdapter(requireContext: Context) :
     RecyclerView.Adapter<LocateAdapter.LocateViewHolder>() {
-//
+    //
 //     lateinit var LocationItem : Locations
-    var LocationItem : ArrayList<LocationsItem> = ArrayList()
+    var LocationItem : String = ""
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): LocateViewHolder {
         return LocateViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.search, parent, false)
-                )
+            LayoutInflater.from(parent.context).inflate(R.layout.search, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: LocateViewHolder, position: Int) {
-        val indexOfList = LocationItem[position]
-        holder.cityName.text = indexOfList.name
+//        val indexOfList = LocationItem[position]
+        holder.cityName.text = LocationItem
     }
 
     override fun getItemCount(): Int {
-        return LocationItem.size
+        return 1
     }
+
     class LocateViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cityName: TextView = itemView.findViewById(R.id.searchCity)
     }
-    fun setCity(city : ArrayList<LocationsItem>){
+
+    fun setCity(city: String){
         this.LocationItem = city
         Log.d("progress", "NRA")
         notifyDataSetChanged()
