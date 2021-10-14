@@ -6,28 +6,30 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
 import com.example.weatherapp.adapter.LocateAdapter
+import com.example.weatherapp.dataClass.SearchLocationsItem
 import com.example.weatherapp.databinding.FragmentLocationBinding
-import com.example.weatherapp.dataClass.LocalNamesX
-import com.example.weatherapp.dataClass.LocationsItem
+
 import com.example.weatherapp.viewModel.LocationViewModel
-import kotlinx.android.synthetic.main.search.*
+//import com.example.weatherapp.dataclass.SearchLocationItem
+//import com.example.weatherapp.dataclass.Values
+//import com.example.weatherapp.viewModel.LocationViewModel
 import retrofit2.Call
 
 
-class LocationFragment : Fragment(), SearchView.OnQueryTextListener {
+class LocationFragment : Fragment(), SearchView.OnQueryTextListener,
+    androidx.appcompat.widget.SearchView.OnQueryTextListener {
 
     private lateinit var LviewModel: LocationViewModel
     private lateinit var locateAdapter: LocateAdapter
-    lateinit var city: Call<LocationsItem>
-    var location_item : ArrayList<LocationsItem> = ArrayList()
+    lateinit var city: Call<List<SearchLocationsItem>>
+    var location_item : ArrayList<List<SearchLocationsItem>> = ArrayList()
     lateinit var binding: FragmentLocationBinding
 
 
@@ -53,34 +55,33 @@ class LocationFragment : Fragment(), SearchView.OnQueryTextListener {
         searchRView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         locateAdapter = LocateAdapter(requireContext())
         searchRView.adapter = locateAdapter
-
+//        LviewModel.getCityName("ghaziabad")
+        searchView.isIconified = false
+//        searchView.setOnClickListener {
+//            LviewModel.getCityName("ghaziabad")
+//        }
         LviewModel.cityName.observe(viewLifecycleOwner,{
-//            val temp = LocationsItem("ghaziabad",
-//                0.0,
-//                LocalNamesX("ghaziabad","ghaziabad","ghaziabad"),
-//                0.0,
-//                "ghaziabad")
-//            location_item.clear()
-////            location_item = it.Locations as ArrayList<LocationsItem>
-//            location_item.add(temp)
-////            Log.d("batao", it!!.toString())
             if(it!=null) {
-                locateAdapter.setCity(it)
+                locateAdapter.setCity(it[0].name.toString())
+//                locateAdapter.setCity(it.toString())
             }
 
         })
-        searchView.setOnClickListener { searchView.isIconified = false }
+        searchView.setOnClickListener {
+//            LviewModel.getCityName()
+            searchView.isIconified = false
+        }
         searchView.setOnQueryTextListener(this)
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        LviewModel.getCity(query.toString())
+        LviewModel.getCityName(query.toString())
         Log.d("error", query.toString())
         return false
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        LviewModel.getCity(newText.toString())
+        LviewModel.getCityName(newText.toString())
         Log.d("error", "qtc")
         return false
     }

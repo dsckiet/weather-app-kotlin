@@ -3,6 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin/app/src/main/res/layout/activity_main.xml" value="0.12001811594202899" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin/app/src/main/res/layout/days_list_item.xml" value="0.19635416666666666" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin/app/src/main/res/layout/fragment_about.xml" value="0.22" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin/app/src/main/res/layout/fragment_days.xml" value="0.19635416666666666" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin/app/src/main/res/layout/fragment_feedback.xml" value="0.22" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin/app/src/main/res/layout/fragment_location.xml" value="0.19635416666666666" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin/app/src/main/res/layout/fragment_today.xml" value="0.19635416666666666" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin/app/src/main/res/layout/header.xml" value="0.19635416666666666" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin/app/src/main/res/layout/search.xml" value="0.12001811594202899" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin/app/src/main/res/layout/switch_menu.xml" value="0.19635416666666666" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin/app/src/main/res/layout/today_list_item.xml" value="0.19635416666666666" />
         <entry key="..\:/android/weather-app-kotlin/app/src/main/res/drawable/gradient_bg.xml" value="0.25435897435897437" />
         <entry key="..\:/android/weather-app-kotlin/app/src/main/res/drawable/gradient_bg_2.xml" value="0.25833333333333336" />
         <entry key="..\:/android/weather-app-kotlin/app/src/main/res/drawable/ic_baseline_switch_left_24.xml" value="0.24537037037037038" />

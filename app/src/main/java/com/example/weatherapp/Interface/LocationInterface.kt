@@ -1,8 +1,7 @@
 package com.example.weatherapp.Interface
 
 
-
-import com.example.weatherapp.dataClass.Locations
+import com.example.weatherapp.dataClass.SearchLocationsItem
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -17,7 +16,7 @@ const val userapi:String = "de4302130ac8b3e82e43d405cfd2c334"
 interface LocationInterface {
 
     @GET("direct?limit=5&appid=$userapi" )
-    fun getCity(@Query("q") name : String): Call<Locations>
+    fun getCity(@Query("q") name : String): Call<List<SearchLocationsItem>>
 }
 
 object RetroService{
@@ -31,4 +30,3 @@ object RetroService{
 
     }
 }
-
