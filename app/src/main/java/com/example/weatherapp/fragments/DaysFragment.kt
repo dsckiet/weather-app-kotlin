@@ -17,6 +17,7 @@ import com.example.weatherapp.dataClass.DaysWeatherListType
 import com.example.weatherapp.dataClass.HourlyWeatherListType
 import com.example.weatherapp.databinding.FragmentDaysBinding
 import com.example.weatherapp.databinding.FragmentTodayBinding
+import com.example.weatherapp.util.LocalKeyStorage
 import com.example.weatherapp.viewModel.MainViewModel
 
 class DaysFragment : Fragment() {
@@ -24,6 +25,7 @@ class DaysFragment : Fragment() {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var dayWeatherAdapter: DayWeatherRecyclerAdapter
     var dayWeatherData: ArrayList<DaysWeatherListType> = ArrayList()
+    lateinit var localKeyStorage : LocalKeyStorage
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +38,9 @@ class DaysFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         binding.lottie.visibility = View.VISIBLE
-        viewModel.getSevenDayWeather().observe(viewLifecycleOwner, Observer {
+        localKeyStorage = LocalKeyStorage(requireContext())
+        val isFahrenheit =localKeyStorage.getValue("isFahrenheit")
+        viewModel.getSevenDayWeather(isFahrenheit).observe(viewLifecycleOwner, Observer {
 
             dayWeatherData = it.data as ArrayList<DaysWeatherListType>
             binding.daysRV.apply {

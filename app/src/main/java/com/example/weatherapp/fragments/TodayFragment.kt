@@ -2,10 +2,12 @@ package com.example.weatherapp.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,6 +16,8 @@ import com.example.weatherapp.R
 import com.example.weatherapp.adapter.TodayWeatherRecyclerAdapter
 import com.example.weatherapp.dataClass.HourlyWeatherListType
 import com.example.weatherapp.databinding.FragmentTodayBinding
+import com.example.weatherapp.util.InternetConnectivity
+import com.example.weatherapp.util.LocalKeyStorage
 import com.example.weatherapp.viewModel.MainViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,6 +29,7 @@ class TodayFragment : Fragment() {
     private lateinit var todayWeatherAdapter: TodayWeatherRecyclerAdapter
     var todayWeatherHourly: ArrayList<HourlyWeatherListType> = ArrayList()
     var tomorrowWeatherHourly: ArrayList<HourlyWeatherListType> = ArrayList()
+    lateinit var localKeyStorage : LocalKeyStorage
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -40,46 +45,63 @@ class TodayFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.lottie.visibility = View.VISIBLE
 
-       viewModel.getWeatherHourly().observe(viewLifecycleOwner, Observer {
-           todayWeatherHourly.clear()
-           tomorrowWeatherHourly.clear()
-           todayWeatherHourly = it.todayHourly as ArrayList<HourlyWeatherListType>
-           tomorrowWeatherHourly = it.tomorrowHourly as ArrayList<HourlyWeatherListType>
+        localKeyStorage = LocalKeyStorage(requireContext())
 
-           binding.currentTemp.text = it.temp
-           binding.feelsLikeTemp.text = it.feelsLikeTemp
-           binding.sunriseData.text = SimpleDateFormat("h:mm a", Locale.ENGLISH).format(
-               Date((it.current.sunrise).toLong() * 1000))
-           binding.sunsetData.text = SimpleDateFormat("h:mm a", Locale.ENGLISH).format(
-               Date((it.current.sunset).toLong() * 1000))
-           binding.humidityData.text = "${it.current.humidity}%"
-           binding.uviData.text = it.current.uvi.toString()
-           binding.pressureData.text = it.current.pressure.toString()
-           binding.windData.text = "${it.current.wind_speed}m/s"
-           binding.cloudiness.text = "${it.current.humidity}%"
-           binding.dewPoint.text = "${it.current.dew_point.toInt()}°C"
-           binding.visible.text = "${it.current.visibility} m"
-           binding.windDirection.text = "${it.current.wind_deg}°"
-
-           binding.recyclerV.apply {
-               layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-               todayWeatherAdapter = TodayWeatherRecyclerAdapter(requireContext())
-               adapter = todayWeatherAdapter
-               todayWeatherAdapter.setWeather(todayWeatherHourly)
-           }
-
-           binding.recyclerV2.apply {
-               layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-               todayWeatherAdapter = TodayWeatherRecyclerAdapter(requireContext())
-               adapter = todayWeatherAdapter
-               todayWeatherAdapter.setWeather(tomorrowWeatherHourly)
-           }
-
-       })
-
-
-
+        if(InternetConnectivity.isNetworkAvailable(requireContext())){
+      //      val isCelsius = arguments?.getBoolean("isCelsius")
+            val isFahrenheit =localKeyStorage.getValue("isFahrenheit")
+            Log.d("isFahrenheit", isFahrenheit.toString())
+            getAndSetData(binding , isFahrenheit)
+            viewModel.isInternet(true)
+        }else{
+            viewModel.isInternet(false)
+            Toast.makeText(context,"No Internet Connection",Toast.LENGTH_LONG).show()
+        }
 
         return view
+    }
+
+   private fun getAndSetData(binding: FragmentTodayBinding, isFahrenheit: String?) {
+        viewModel.getWeatherHourly(isFahrenheit).observe(viewLifecycleOwner, Observer {
+            todayWeatherHourly.clear()
+            tomorrowWeatherHourly.clear()
+            todayWeatherHourly = it.todayHourly as ArrayList<HourlyWeatherListType>
+            tomorrowWeatherHourly = it.tomorrowHourly as ArrayList<HourlyWeatherListType>
+
+            binding.currentTemp.text = it.temp
+            binding.feelsLikeTemp.text = it.feelsLikeTemp
+            binding.sunriseData.text = SimpleDateFormat("h:mm a", Locale.ENGLISH).format(
+                Date((it.current.sunrise).toLong() * 1000))
+            binding.sunsetData.text = SimpleDateFormat("h:mm a", Locale.ENGLISH).format(
+                Date((it.current.sunset).toLong() * 1000))
+            binding.uviData.text = it.current.uvi.toString()
+            binding.pressureData.text = it.current.pressure.toString()
+            binding.humidityData.text = "${it.current.humidity}%"
+            if(isFahrenheit=="true"){
+                binding.windData.text = "${it.current.wind_speed}mi/h"
+                binding.dewPoint.text = "${it.current.dew_point.toInt()}°F"
+            }else{
+                binding.windData.text = "${it.current.wind_speed}m/s"
+                binding.dewPoint.text = "${it.current.dew_point.toInt()}°C"
+            }
+            binding.cloudiness.text = "${it.current.humidity}%"
+            binding.visible.text = "${it.current.visibility} m"
+            binding.windDirection.text = "${it.current.wind_deg}°"
+
+            binding.recyclerV.apply {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                todayWeatherAdapter = TodayWeatherRecyclerAdapter(requireContext())
+                adapter = todayWeatherAdapter
+                todayWeatherAdapter.setWeather(todayWeatherHourly)
+            }
+
+            binding.recyclerV2.apply {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                todayWeatherAdapter = TodayWeatherRecyclerAdapter(requireContext())
+                adapter = todayWeatherAdapter
+                todayWeatherAdapter.setWeather(tomorrowWeatherHourly)
+            }
+
+        })
     }
 }

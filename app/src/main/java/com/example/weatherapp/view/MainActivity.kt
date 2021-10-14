@@ -13,15 +13,22 @@ import android.provider.Settings
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.SearchView
+import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.ActionMenuView
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
+import androidx.core.view.MenuItemCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.weatherapp.BuildConfig
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ActivityMainBinding
+import com.example.weatherapp.fragments.TodayFragment
+import com.example.weatherapp.util.LocalKeyStorage
 //import com.example.weatherapp.utils.permissionUtils
 import com.google.android.gms.location.FusedLocationProviderClient
 //import com.google.android.gms.location.LocationRequest
@@ -35,6 +42,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
     protected var mLastLocation: Location? = null
+    lateinit var localKeyStorage : LocalKeyStorage
 
     private var mLatitudeLabel: String? = null
     private var mLongitudeLabel: String? = null
@@ -61,6 +69,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         txtlocation.setOnClickListener {
             navController.navigate(R.id.action_homeFragment_to_locationFragment)
         }
+        localKeyStorage = LocalKeyStorage(this)
 
         //Navigation Drawer Toggle
         val drawerToggle : ActionBarDrawerToggle = object : ActionBarDrawerToggle(
@@ -77,13 +86,42 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerToggle.syncState()
         nav_view.setNavigationItemSelectedListener(this)
 
+//        val switch = findViewById<SwitchCompat>(R.id.switch_id)
+//        switch.setOnClickListener {
+//            if(switch.isChecked){
+//                Toast.makeText(this,"Touch the button", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+
+        val menu = binding.navView.menu
+        val menuItem = menu.findItem(R.id.conversion)
+//        if(menuItem.isChecked){
+//            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , "true")
+//        }
+//        else{
+//            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , "false")
+//        }
+
+       // val view = MenuItemCompat.getActionView(menuItem)
+        val view = menuItem.actionView
+        val switch : SwitchCompat = view.findViewById(R.id.switch_id)
+        switch.isChecked = localKeyStorage.getValue("isFahrenheit") == "true"
+        switch.setOnCheckedChangeListener { _, isChecked ->
+
+            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , isChecked.toString())
+
+//            val bundle = Bundle()
+//            bundle.putBoolean("isCelsius" , isChecked)
+            Log.d("togglemain", isChecked.toString())
+            navController.navigate(R.id.action_homeFragment_self)
+        }
     }
     //Implemented Item Selected listener
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         when(menuItem.itemId){
             R.id.conversion ->{
-                Toast.makeText(this,"Touch the button", Toast.LENGTH_SHORT).show()
+             //   Toast.makeText(this,"Touch the button", Toast.LENGTH_SHORT).show()
             }
 
             R.id.about ->{
