@@ -15,8 +15,8 @@ const val api_key: String = "fb47fa398ad290f6e16e655512d6e8d5"
 
 interface RetroInstance {
 
-    @GET("onecall?appid=$api_key&units=metric&exclude=minutely")
-    fun getWeather(@Query("lat") latitude : Float, @Query("lon") longitude : Float): Call<MainWeather>
+    @GET("onecall?appid=$api_key&exclude=minutely")
+    fun getWeather(@Query("units") unit : String, @Query("lat") latitude : Float, @Query("lon") longitude : Float): Call<MainWeather>
 
 }
 

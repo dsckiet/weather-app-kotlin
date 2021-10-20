@@ -13,18 +13,19 @@
             android:textSize="50sp"
             android:layout_marginTop="50dp"
             android:textStyle="italic"/>
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/heading"
-            android:text="@string/forecast"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="12dp"
-            android:textStyle="italic"
-            android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/heading"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="12dp"
+        android:text="@string/forecast"
+        android:textSize="18sp"
+        android:textStyle="italic" />
         <ImageView
             android:id="@+id/aboutimg"
             android:layout_width="match_parent"

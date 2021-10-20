@@ -1,30 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-<RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/headreview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="40dp"
-        android:text="Leave a review"
-        android:textColor="@color/black"
-        android:textSize="35sp"
-        android:textStyle="bold" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/headreview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="30dp"
+            android:text="Leave a review"
+            android:textColor="@color/black"
+            android:textSize="35sp"
+            android:textStyle="bold" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cview1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/headreview"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            app:cardCornerRadius="10dp"
             android:layout_marginTop="20dp"
-            android:layout_below="@id/headreview">
+            android:layout_marginRight="15dp"
+            app:cardCornerRadius="10dp">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -37,7 +41,7 @@
                     android:layout_marginTop="30dp"
                     android:text="Rate your experience"
                     android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:textSize="25sp" />
 
                 <RatingBar
                     android:id="@+id/ratingBar"
@@ -48,19 +52,23 @@
                     android:layout_marginTop="20dp" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/cview1"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="12dp"
+            app:cardElevation="2dp"
             android:layout_marginRight="15dp"
             app:cardCornerRadius="10dp">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="8dp">
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="10dp">
 
                 <EditText
                     android:id="@+id/name"
@@ -70,7 +78,7 @@
                     android:layout_marginRight="20dp"
                     android:hint="Name"
                     android:inputType="text"
-                    android:textSize="18sp"/>
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/email"
@@ -82,19 +90,19 @@
                     android:layout_marginRight="20dp"
                     android:hint="E-Mail"
                     android:inputType="textEmailAddress"
-                    android:textSize="18sp" />
-
+                    android:textSize="20sp" />
+              
                 <EditText
                     android:id="@+id/message"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="140dp"
                     android:layout_below="@id/email"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="20dp"
                     android:hint="Message"
                     android:inputType="text"
-                    android:textSize="18sp" />
+                    android:textSize="20sp" />
 
                 <Button
                     android:id="@+id/send"
@@ -103,12 +111,13 @@
                     android:layout_below="@id/message"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="30dp"
+                    android:layout_marginBottom="12dp"
                     android:text="Publish Review" />
-                
+
             </RelativeLayout>
-            
+
         </androidx.cardview.widget.CardView>
-            
+
 
     </RelativeLayout>
-</layout>
+</ScrollView>
