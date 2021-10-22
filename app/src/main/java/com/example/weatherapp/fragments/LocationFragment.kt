@@ -62,8 +62,8 @@ class LocationFragment : Fragment(), SearchView.OnQueryTextListener,
 //        }
         LviewModel.cityName.observe(viewLifecycleOwner,{
             if(it!=null) {
-                locateAdapter.setCity(it[0].name.toString())
-//                locateAdapter.setCity(it.toString())
+//                locateAdapter.setCity(it[0].name.toString())
+                locateAdapter.setCity(it.toString())
             }
 
         })
