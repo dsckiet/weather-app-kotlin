@@ -31,10 +31,10 @@ class MainViewModel constructor(application: Application) : AndroidViewModel(app
     lateinit var windSpeedUnit: String
     private var apiQueryUnit : String = ""
 
-    fun getWeatherHourly(isFahrenheit: String?): MutableLiveData<WeatherData> {
+    fun getWeatherHourly(isFahrenheit: String?, lat: String?, lon: String?): MutableLiveData<WeatherData> {
         isLoadingMain.value = true
         apiQueryUnit = if(isFahrenheit=="true") "imperial" else "metric"
-        this.weather = repoInstance.getServicesApiCall(apiQueryUnit)
+        this.weather = repoInstance.getServicesApiCall(apiQueryUnit, lat, lon)
         weather.enqueue(object : Callback<MainWeather> {
             override fun onResponse(call: Call<MainWeather>, response: Response<MainWeather>) {
                 val weather = response.body()
@@ -87,10 +87,10 @@ class MainViewModel constructor(application: Application) : AndroidViewModel(app
         return weather_hourly
     }
 
-    fun getSevenDayWeather(isFahrenheit: String?): MutableLiveData<WeatherDataDays> {
+    fun getSevenDayWeather(isFahrenheit: String?, lat: String?, lon: String?): MutableLiveData<WeatherDataDays> {
         isLoading.value = true
         apiQueryUnit = if(isFahrenheit=="true") "imperial" else "metric"
-        this.weather = repoInstance.getServicesApiCall(apiQueryUnit)
+        this.weather = repoInstance.getServicesApiCall(apiQueryUnit, lat, lon)
         weather.enqueue(object : Callback<MainWeather> {
             override fun onResponse(call: Call<MainWeather>, response: Response<MainWeather>) {
                 val weather = response.body()

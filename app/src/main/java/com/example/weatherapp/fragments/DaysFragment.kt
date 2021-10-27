@@ -1,7 +1,6 @@
 package com.example.weatherapp.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
 import com.example.weatherapp.adapter.DayWeatherRecyclerAdapter
-import com.example.weatherapp.adapter.TodayWeatherRecyclerAdapter
 import com.example.weatherapp.dataClass.DaysWeatherListType
-import com.example.weatherapp.dataClass.HourlyWeatherListType
 import com.example.weatherapp.databinding.FragmentDaysBinding
-import com.example.weatherapp.databinding.FragmentTodayBinding
 import com.example.weatherapp.util.LocalKeyStorage
 import com.example.weatherapp.viewModel.MainViewModel
 
@@ -40,7 +36,9 @@ class DaysFragment : Fragment() {
         binding.lottie.visibility = View.VISIBLE
         localKeyStorage = LocalKeyStorage(requireContext())
         val isFahrenheit =localKeyStorage.getValue("isFahrenheit")
-        viewModel.getSevenDayWeather(isFahrenheit).observe(viewLifecycleOwner, Observer {
+        val lat = localKeyStorage.getValue("latitude")
+        val lon = localKeyStorage.getValue("longitude")
+        viewModel.getSevenDayWeather(isFahrenheit, lat, lon).observe(viewLifecycleOwner, Observer {
 
             dayWeatherData = it.data as ArrayList<DaysWeatherListType>
             binding.daysRV.apply {

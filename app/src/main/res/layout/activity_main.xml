@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="cityName"
+            type="com.example.weatherapp.util.LocalKeyStorage" />
+
     </data>
 
 
@@ -22,35 +28,47 @@
                 android:id="@+id/topview"
                 style="@style/Widget.MaterialComponents.AppBarLayout.PrimarySurface"
                 android:layout_width="match_parent"
-                app:elevation="0dp"
                 android:layout_height="wrap_content"
-                android:fitsSystemWindows="true">
+                android:fitsSystemWindows="true"
+                app:elevation="0dp">
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/topAppBar"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:navigationIcon="@drawable/ic_icon"
-                    style="@style/Widget.MaterialComponents.AppBarLayout.PrimarySurface"
-                    android:background="@android:color/transparent"
-                    android:elevation="0dp" >
-                    <TextView
-                        android:id="@+id/txtlocation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Weather App"
-                        android:textSize="20sp"
-                        android:layout_marginLeft="75dp"
-                        android:textColor="@color/white"
-                        />
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/locate"
-                        android:shadowColor="@color/white"
-                        android:layout_marginLeft="0dp"
-                        android:layout_marginTop="12dp"/>
-                </androidx.appcompat.widget.Toolbar>
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/topAppBar"
+                        style="@style/Widget.MaterialComponents.AppBarLayout.PrimarySurface"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:background="@android:color/transparent"
+                        android:elevation="0dp"
+                        app:theme="@style/ToolbarColor"
+                        app:navigationIcon="@drawable/ic_icon">
+
+
+                        <TextView
+                            android:id="@+id/txtlocation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:ellipsize="end"
+                            android:maxLength="28"
+                            android:singleLine="true"
+                            android:text=""
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:shadowColor="@color/white"
+                            android:src="@drawable/locate" />
+
+                    </androidx.appcompat.widget.Toolbar>
+
+                </RelativeLayout>
 
             </com.google.android.material.appbar.AppBarLayout>
 

@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="lViewModel"
+            type="com.example.weatherapp.viewModel.LocationViewModel" />
 
     </data>
 
@@ -24,11 +29,25 @@
             app:queryBackground="@android:color/transparent"
             android:background="@drawable/searchbg" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/recyclerView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            tools:listitem="@layout/search" />-->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/search" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:visibility="@{lViewModel.isInternet()==true?View.GONE:View.VISIBLE}"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/somethingwentwrong" />
+        </LinearLayout>
 
     </LinearLayout>
 </layout>
