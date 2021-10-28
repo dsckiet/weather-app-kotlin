@@ -49,5 +49,6 @@
         android:id="@+id/locationFragment"
         android:name="com.example.weatherapp.fragments.LocationFragment"
         android:label="fragment_location"
-        tools:layout="@layout/fragment_location" />
+        tools:layout="@layout/fragment_location" >
+    </fragment>
 </navigation>

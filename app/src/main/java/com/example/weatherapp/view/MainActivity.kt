@@ -17,11 +17,13 @@ import android.widget.SearchView
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
 import androidx.core.view.MenuItemCompat
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.weatherapp.BuildConfig
@@ -29,6 +31,8 @@ import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ActivityMainBinding
 import com.example.weatherapp.fragments.TodayFragment
 import com.example.weatherapp.util.LocalKeyStorage
+import com.example.weatherapp.viewModel.LocationViewModel
+import com.example.weatherapp.viewModel.MainViewModel
 //import com.example.weatherapp.utils.permissionUtils
 import com.google.android.gms.location.FusedLocationProviderClient
 //import com.google.android.gms.location.LocationRequest
@@ -70,6 +74,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             navController.navigate(R.id.action_homeFragment_to_locationFragment)
         }
         localKeyStorage = LocalKeyStorage(this)
+        binding.txtlocation.text = localKeyStorage.getValue(LocalKeyStorage.cityName)
 
         //Navigation Drawer Toggle
         val drawerToggle : ActionBarDrawerToggle = object : ActionBarDrawerToggle(

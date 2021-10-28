@@ -17,6 +17,7 @@ class LocationViewModel constructor(application: Application) : AndroidViewModel
     val repoInstance = LocationRepo(application)
     lateinit var city: Call<List<SearchLocationsItem>>
     val cityName = MutableLiveData<List<SearchLocationsItem>>()
+    var isInternet = MutableLiveData<Boolean>()
 
     init {
 
@@ -45,10 +46,15 @@ class LocationViewModel constructor(application: Application) : AndroidViewModel
 
             override fun onFailure(call: Call<List<SearchLocationsItem>>, t: Throwable) {
                 Log.d("err", "Failure", t)
+                isInternet.value = false
             }
         })
 
         return cityName
+    }
+
+    fun isInternet(b: Boolean) {
+        isInternet.value = b
     }
 
 }

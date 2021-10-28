@@ -49,9 +49,11 @@ class TodayFragment : Fragment() {
 
         if(InternetConnectivity.isNetworkAvailable(requireContext())){
       //      val isCelsius = arguments?.getBoolean("isCelsius")
-            val isFahrenheit =localKeyStorage.getValue("isFahrenheit")
+            val isFahrenheit = localKeyStorage.getValue("isFahrenheit")
+            val lat = localKeyStorage.getValue("latitude")
+            val lon = localKeyStorage.getValue("longitude")
             Log.d("isFahrenheit", isFahrenheit.toString())
-            getAndSetData(binding , isFahrenheit)
+            getAndSetData(binding , isFahrenheit, lat, lon)
             viewModel.isInternet(true)
         }else{
             viewModel.isInternet(false)
@@ -61,8 +63,13 @@ class TodayFragment : Fragment() {
         return view
     }
 
-   private fun getAndSetData(binding: FragmentTodayBinding, isFahrenheit: String?) {
-        viewModel.getWeatherHourly(isFahrenheit).observe(viewLifecycleOwner, Observer {
+   private fun getAndSetData(
+       binding: FragmentTodayBinding,
+       isFahrenheit: String?,
+       lat: String?,
+       lon: String?
+   ) {
+        viewModel.getWeatherHourly(isFahrenheit, lat, lon).observe(viewLifecycleOwner, Observer {
             todayWeatherHourly.clear()
             tomorrowWeatherHourly.clear()
             todayWeatherHourly = it.todayHourly as ArrayList<HourlyWeatherListType>

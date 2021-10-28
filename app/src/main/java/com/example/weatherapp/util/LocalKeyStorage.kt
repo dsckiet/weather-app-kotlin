@@ -2,6 +2,7 @@ package com.example.weatherapp.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.lifecycle.MutableLiveData
 import com.example.weatherapp.R
 
 class LocalKeyStorage(context: Context) {
@@ -10,6 +11,9 @@ class LocalKeyStorage(context: Context) {
 
     companion object {
         const val FAHRENHEIT = "isFahrenheit"
+        const val latitude = "latitude"
+        const val longitude = "longitude"
+        const val cityName = "cityName"
     }
 
     fun saveValue(key: String, value: String) {
@@ -19,7 +23,13 @@ class LocalKeyStorage(context: Context) {
     }
 
     fun getValue(key: String): String? {
-        return prefs?.getString(key, "false")
+        return when(key) {
+           "isFahrenheit" -> prefs?.getString(key, "false")
+           "latitude" -> prefs?.getString(key, "20.5937")
+           "longitude" -> prefs?.getString(key, "78.9629")
+           "cityName" -> prefs?.getString(key, "India")
+            else -> prefs?.getString(key, null)
+        }
     }
 
     fun deleteValue(key: String) {
