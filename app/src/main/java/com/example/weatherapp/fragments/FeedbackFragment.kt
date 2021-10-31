@@ -1,6 +1,5 @@
 package com.example.weatherapp.fragments
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,20 +8,23 @@ import android.view.ViewGroup
 import android.widget.RatingBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
-import com.example.weatherapp.databinding.FragmentFeedbackBinding
-import com.example.weatherapp.dataclass.Feedback
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_feedback.*
+
+import com.example.weatherapp.dataClass.Feedback
+import java.util.regex.Pattern
 
 
 class FeedbackFragment : Fragment() {
     private lateinit var ratingBar : RatingBar
     private lateinit var database: DatabaseReference
+    private var validate: Boolean = true
+    private val NAME_PATTERN = Pattern.compile(
+        "^[a-zA-Z]{4,}(?: [a-zA-Z]+){0,2}\$"
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +38,7 @@ class FeedbackFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
         ratingBar = view.findViewById(R.id.ratingBar)
-        ratingBar.rating = 2.5f
+        ratingBar.rating = 3f
         ratingBar.stepSize = .5f
 
 //        ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
@@ -48,17 +50,35 @@ class FeedbackFragment : Fragment() {
         database = FirebaseDatabase.getInstance().reference
         send.setOnClickListener {
 
-            var name = name.text.toString()
-            var email = email.text.toString()
-            var msg = message.text.toString()
+            val name = nameInput.text.toString()
+            val email = emailInput.text.toString()
+            val msg = messageInput.text.toString()
 
-            database.child(name.toString()).setValue(Feedback(email,msg))
-            Toast.makeText(context, "Response Submitted", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_feedbackFragment_to_homeFragment)
+            if (!NAME_PATTERN.matcher(name).matches()) {
+                nameInput.error = "Please enter a valid name"
+                nameInput.requestFocus()
+                validate = false
+            } else {
+                if (email.isEmpty()) {
+                    emailInput.error = "Email is Mandatory"
+                    emailInput.requestFocus()
+                    validate = false
+                } else {
+                    if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        validate = false
+                        emailInput.error = "Please enter valid email"
+                        emailInput.requestFocus()
+                    }
+                }
+            }
+
+           if (validate) {
+                database.child(name).setValue(Feedback(email, msg, ratingBar.rating.toString()))
+                Toast.makeText(context, "Response Submitted", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_feedbackFragment_to_homeFragment)
+            }
+
 
         }
-
     }
-
-
 }
