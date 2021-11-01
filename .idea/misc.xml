@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin-1/app/src/main/res/drawable/round_background.xml" value="0.2125" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin-1/app/src/main/res/layout/activity_main.xml" value="0.19635416666666666" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin-1/app/src/main/res/layout/fragment_days.xml" value="0.17395833333333333" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin-1/app/src/main/res/layout/fragment_feedback.xml" value="0.12318840579710146" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin-1/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin-1/app/src/main/res/layout/fragment_today.xml" value="0.17395833333333333" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin/app/src/main/res/layout/activity_main.xml" value="0.12001811594202899" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin/app/src/main/res/layout/days_list_item.xml" value="0.19635416666666666" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin/app/src/main/res/layout/fragment_about.xml" value="0.22" />
