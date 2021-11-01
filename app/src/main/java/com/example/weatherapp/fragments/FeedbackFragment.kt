@@ -1,20 +1,21 @@
 package com.example.weatherapp.fragments
+
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Patterns
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RatingBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
+import com.example.weatherapp.dataclass.Feedback
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_feedback.*
-
-import com.example.weatherapp.dataClass.Feedback
 import java.util.regex.Pattern
 
 
@@ -25,7 +26,6 @@ class FeedbackFragment : Fragment() {
     private val NAME_PATTERN = Pattern.compile(
         "^[a-zA-Z]{4,}(?: [a-zA-Z]+){0,2}\$"
     )
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,35 +35,30 @@ class FeedbackFragment : Fragment() {
         return view
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
         ratingBar = view.findViewById(R.id.ratingBar)
         ratingBar.rating = 3f
         ratingBar.stepSize = .5f
 
-//        ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
-//            Toast.makeText(context, "Rating = $rating", Toast.LENGTH_SHORT).show()
-//        }
-
-
-        //Setting firebase database
         database = FirebaseDatabase.getInstance().reference
-        send.setOnClickListener {
 
+        send.setOnClickListener {
             val name = nameInput.text.toString()
             val email = emailInput.text.toString()
             val msg = messageInput.text.toString()
-
             if (!NAME_PATTERN.matcher(name).matches()) {
                 nameInput.error = "Please enter a valid name"
                 nameInput.requestFocus()
                 validate = false
-            } else {
-                if (email.isEmpty()) {
+            }else {
+                if (TextUtils.isEmpty(email)){
                     emailInput.error = "Email is Mandatory"
                     emailInput.requestFocus()
                     validate = false
-                } else {
+                }
+                else{
                     if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                         validate = false
                         emailInput.error = "Please enter valid email"
@@ -71,14 +66,23 @@ class FeedbackFragment : Fragment() {
                     }
                 }
             }
+            if (validate) {
+                database.child(name).setValue(Feedback(email, msg))
 
-           if (validate) {
-                database.child(name).setValue(Feedback(email, msg, ratingBar.rating.toString()))
-                Toast.makeText(context, "Response Submitted", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_feedbackFragment_to_homeFragment)
+                        Toast.makeText(context, "Response Submitted", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_feedbackFragment_to_homeFragment)
+
+
             }
 
-
         }
+
+
     }
+    fun onSuccess() {
+
+        findNavController().popBackStack()
+    }
+
+
 }
