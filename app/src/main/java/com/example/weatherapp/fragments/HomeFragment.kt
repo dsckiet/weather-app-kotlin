@@ -23,7 +23,8 @@ class HomeFragment : Fragment() {
         val tabLayout = view.tabLay
         val viewPager = view.viewPagerLay
 
-        val adapter = ViewPagerAdapter(requireActivity().supportFragmentManager,lifecycle)
+//        val adapter = ViewPagerAdapter(requireActivity().supportFragmentManager,lifecycle)
+        val adapter = ViewPagerAdapter(childFragmentManager, lifecycle)
         viewPager.adapter = adapter
         TabLayoutMediator(tabLayout,viewPager) { tab, position ->
             when (position) {

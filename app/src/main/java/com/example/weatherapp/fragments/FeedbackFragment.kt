@@ -15,6 +15,7 @@ import com.example.weatherapp.R
 import com.example.weatherapp.dataclass.Feedback
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.fragment_about.*
 import kotlinx.android.synthetic.main.fragment_feedback.*
 import java.util.regex.Pattern
 
@@ -41,6 +42,10 @@ class FeedbackFragment : Fragment() {
         ratingBar = view.findViewById(R.id.ratingBar)
         ratingBar.rating = 3f
         ratingBar.stepSize = .5f
+
+        backbtn1.setOnClickListener {
+            findNavController().navigate(R.id.action_feedbackFragment_to_homeFragment)
+        }
 
         database = FirebaseDatabase.getInstance().reference
 
