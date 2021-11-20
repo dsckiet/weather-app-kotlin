@@ -7,34 +7,45 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/backbtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/back" />
+
         <TextView
             android:id="@+id/heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
             android:text="About Us"
             android:textSize="50sp"
-            android:layout_marginTop="50dp"
-            android:textStyle="italic"/>
+            android:textStyle="italic" />
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/heading"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="12dp"
-        android:text="@string/forecast"
-        android:textSize="18sp"
-        android:textStyle="italic" />
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/heading"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="12dp"
+            android:text="@string/forecast"
+            android:textSize="18sp"
+            android:textStyle="italic" />
+
         <ImageView
             android:id="@+id/aboutimg"
             android:layout_width="match_parent"
             android:layout_height="280dp"
             android:layout_below="@id/text"
-            android:src="@drawable/ic_weather"/>
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_weather" />
 <TextView
             android:id="@+id/madeby"
             android:layout_width="wrap_content"
