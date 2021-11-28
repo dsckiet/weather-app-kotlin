@@ -8,16 +8,16 @@
         android:id="@+id/grp">
     </group>
 
-    <group
-        android:id="@+id/group1"
-        >
-        <item
-            android:id="@+id/conversion"
-            android:icon="@drawable/ic_baseline_switch_left_24"
-            android:title="C/F"
-            app:actionLayout="@layout/switch_menu"
-            />
-    </group>
+<!--    <group-->
+<!--        android:id="@+id/group1"-->
+<!--        >-->
+<!--        <item-->
+<!--            android:id="@+id/conversion"-->
+<!--            android:icon="@drawable/ic_baseline_switch_left_24"-->
+<!--            android:title="C/F"-->
+<!--            app:actionLayout="@layout/switch_menu"-->
+<!--            />-->
+<!--    </group>-->
     <group
     android:id="@+id/group2"
     >

@@ -23,6 +23,9 @@ import com.example.weatherapp.util.InternetConnectivity
 import com.example.weatherapp.util.LocalKeyStorage
 
 import com.example.weatherapp.viewModel.LocationViewModel
+import kotlinx.android.synthetic.main.fragment_about.*
+import kotlinx.android.synthetic.main.fragment_about.backbtn
+import kotlinx.android.synthetic.main.fragment_location.*
 //import com.example.weatherapp.dataclass.SearchLocationItem
 //import com.example.weatherapp.dataclass.Values
 //import com.example.weatherapp.viewModel.LocationViewModel
@@ -59,6 +62,10 @@ class LocationFragment : Fragment(), SearchView.OnQueryTextListener,
         binding.lViewModel = LviewModel
         binding.lifecycleOwner = this
         binding.lottie.visibility = View.GONE
+
+        backbtn2.setOnClickListener {
+            findNavController().navigate(R.id.action_locationFragment_to_homeFragment)
+        }
 
         if(InternetConnectivity.isNetworkAvailable(requireContext())){
             LviewModel.isInternet(true)

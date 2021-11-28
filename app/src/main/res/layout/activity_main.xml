@@ -41,10 +41,10 @@
                         style="@style/Widget.MaterialComponents.AppBarLayout.PrimarySurface"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
-                        android:background="@android:color/transparent"
+                        android:background="@color/tabColor"
                         android:elevation="0dp"
-                        app:theme="@style/ToolbarColor"
-                        app:navigationIcon="@drawable/ic_icon">
+                        app:navigationIcon="@drawable/ic_icon"
+                        app:theme="@style/ToolbarColor">
 
 
                         <TextView
@@ -60,11 +60,22 @@
                             android:textSize="20sp" />
 
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:id="@+id/icsrch"
+                            android:layout_width="25dp"
+                            android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:shadowColor="@color/white"
-                            android:src="@drawable/locate" />
+                            android:src="@drawable/searchicon" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/conSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_marginRight="10dp"
+                            android:text="C/F"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
 
                     </androidx.appcompat.widget.Toolbar>
 
