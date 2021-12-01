@@ -2,9 +2,12 @@ package com.example.weatherapp.view
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -33,21 +36,20 @@ import com.example.weatherapp.fragments.TodayFragment
 import com.example.weatherapp.util.LocalKeyStorage
 import com.example.weatherapp.viewModel.LocationViewModel
 import com.example.weatherapp.viewModel.MainViewModel
+import com.google.android.gms.location.*
 //import com.example.weatherapp.utils.permissionUtils
-import com.google.android.gms.location.FusedLocationProviderClient
 //import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
-    protected var mLastLocation: Location? = null
-    lateinit var localKeyStorage : LocalKeyStorage
+    var mLastLocation: Location? = null
+    lateinit var localKeyStorage: LocalKeyStorage
     private var mFusedLocationClient: FusedLocationProviderClient? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +60,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
 
 
@@ -66,12 +69,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val actionBar = supportActionBar
         actionBar?.title = " "
 
-        if (!checkPermissions()) {
-            requestPermissions()
-        }
-        else {
-            getLastLocation()
-        }
+//        if (!checkPermissions()) {
+//            requestPermissions()
+//        } else {
+//            getLastLocation()
+//        }
+     //   getLastLocation()
 
         //on click of location text
         txtlocation.setOnClickListener {
@@ -84,13 +87,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.txtlocation.text = localKeyStorage.getValue(LocalKeyStorage.cityName)
 
         //Navigation Drawer Toggle
-        val drawerToggle : ActionBarDrawerToggle = object : ActionBarDrawerToggle(
+        val drawerToggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
             this,
             drawerLayout,
             topAppBar,
             (R.string.open),
             (R.string.close)
-        ){
+        ) {
 
         }
         drawerToggle.isDrawerIndicatorEnabled = true
@@ -98,187 +101,152 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerToggle.syncState()
         nav_view.setNavigationItemSelectedListener(this)
 
-//        val switch = findViewById<SwitchCompat>(R.id.switch_id)
-//        switch.setOnClickListener {
-//            if(switch.isChecked){
-//                Toast.makeText(this,"Touch the button", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-
-        val menu = binding.navView.menu
-//        val menuItem = menu.findItem(R.id.conversion)
-//        if(menuItem.isChecked){
-//            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , "true")
-//        }
-//        else{
-//            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , "false")
-//        }
-
-       // val view = MenuItemCompat.getActionView(menuItem)
-//        val view = menuItem.actionView
-//        val switch : SwitchCompat = view.findViewById(R.id.switch_id)
-//        switch.isChecked = localKeyStorage.getValue("isFahrenheit") == "true"
-//        switch.setOnCheckedChangeListener { _, isChecked ->
-//
-//            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , isChecked.toString())
-//
-////            val bundle = Bundle()
-////            bundle.putBoolean("isCelsius" , isChecked)
-//            Log.d("togglemain", isChecked.toString())
-//            navController.navigate(R.id.action_homeFragment_self)
-//        }
-
-        val switchh : SwitchCompat = findViewById(R.id.conSwitch)
+        val switchh: SwitchCompat = findViewById(R.id.conSwitch)
         switchh.isChecked = localKeyStorage.getValue("isFahrenheit") == "true"
         switchh.setOnCheckedChangeListener { _, isChecked ->
- 
-            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , isChecked.toString())
+
+            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT, isChecked.toString())
             Log.d("togglemain", isChecked.toString())
             navController.navigate(R.id.action_homeFragment_self)
-
-//            finish()
-//            startActivity(intent)
-
         }
-
-
-
     }
-    //Implemented Item Selected listener
+
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        when(menuItem.itemId){
-//            R.id.conversion ->{
-//             //   Toast.makeText(this,"Touch the button", Toast.LENGTH_SHORT).show()
-//            }
-
-            R.id.about ->{
+        when (menuItem.itemId) {
+            R.id.about -> {
 
                 navController.navigate(R.id.action_homeFragment_to_aboutFragment)
                 drawerLayout.close()
 
             }
-            R.id.license ->{
+            R.id.license -> {
                 startActivity(Intent(this, OssLicensesMenuActivity::class.java))
 
             }
-            R.id.feedback ->{
+            R.id.feedback -> {
 
                 navController.navigate(R.id.action_homeFragment_to_feedbackFragment)
                 drawerLayout.close()
 
             }
-            else -> Toast.makeText(this,"Error", Toast.LENGTH_SHORT).show()
+            else -> Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
         }
         return true
     }
 
-    //location vala part
-
-
-
-
-//    public override fun onStart() {
-//        super.onStart()
+//    @SuppressLint("MissingPermission")
+//    private fun getLastLocation() {
+//        if(checkPermissions()){
+//            if (isLocationEnabled()){
+//                mFusedLocationClient!!.lastLocation
+//                    .addOnCompleteListener(this) { task ->
+//                        mLastLocation = task.result
+//                        if (mLastLocation != null) {
+//                            val lat = mLastLocation!!.latitude.toString()
+//                            val lon = mLastLocation!!.longitude.toString()
+//                            localKeyStorage.saveValue(LocalKeyStorage.latitude , lat)
+//                            localKeyStorage.saveValue(LocalKeyStorage.longitude , lon)
+//                            localKeyStorage.saveValue(LocalKeyStorage.cityName , "testing")
+//                            Log.d("values", " latlon $lat $lon")
+//                        } else {
+//                            Log.d("values", "location null and call requestNewLocationData")
+//                            requestNewLocationData()
+//                        }
+//                    }
+//            } else {
+//                Log.d("values", "location off")
 //
-//        if (!checkPermissions()) {
+//                Toast.makeText(this, "Please Turn on location", Toast.LENGTH_LONG).show()
+//                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+//                startActivity(intent)
+//
+//            }
+//        }else {
 //            requestPermissions()
-//        } else {
-//            getLastLocation()
 //        }
 //    }
-
-
-    @SuppressLint("MissingPermission")
-    private fun getLastLocation() {
-        mFusedLocationClient!!.lastLocation
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful && task.result != null) {
-                    mLastLocation = task.result
-
-                } else {
-                    Log.w(TAG, "getLastLocation:exception", task.exception)
-
-                }
-            }
-    }
-
-
-
-    private fun showSnackbar(mainTextStringId: Int, actionStringId: Int,
-                             listener: View.OnClickListener) {
-
-        Toast.makeText(this@MainActivity, getString(mainTextStringId), Toast.LENGTH_LONG).show()
-    }
-
-
-    private fun checkPermissions(): Boolean {
-        val permissionState = ActivityCompat.checkSelfPermission(this,
-            Manifest.permission.ACCESS_COARSE_LOCATION)
-        return permissionState == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun startLocationPermissionRequest() {
-
-        ActivityCompat.requestPermissions(this@MainActivity,
-            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
-            REQUEST_PERMISSIONS_REQUEST_CODE)
-
-    }
-
-    private fun requestPermissions() {
-        val shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(this,
-            Manifest.permission.ACCESS_COARSE_LOCATION)
-
-        if (shouldProvideRationale) {
-            Log.i(TAG, "Displaying permission rationale to provide additional context.")
-
-            showSnackbar(R.string.permission_rationale, android.R.string.ok,
-                View.OnClickListener {
-                    // Request permission
-                    startLocationPermissionRequest()
-                })
-
-        } else {
-            Log.i(TAG, "Requesting permission")
-            startLocationPermissionRequest()
-        }
-    }
-
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
-                                            grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        Log.i(TAG, "onRequestPermissionResult")
-        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-            if (grantResults.size <= 0) {
-                Log.i(TAG, "User interaction was cancelled.")
-            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted.
-                getLastLocation()
-            } else {
-
-
-                showSnackbar(R.string.permission_denied_explanation, R.string.settings,
-                    View.OnClickListener {
-                        val intent = Intent()
-                        intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                        val uri = Uri.fromParts("package",
-                            BuildConfig.APPLICATION_ID, null)
-                        intent.data = uri
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        startActivity(intent)
-                    })
-
-            }
-        }
-    }
-
-    companion object {
-
-        private val TAG = "LocationProvider"
-
-        private val REQUEST_PERMISSIONS_REQUEST_CODE = 34
-    }
-
+//
+//    private fun checkPermissions(): Boolean {
+//        if (ActivityCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.ACCESS_COARSE_LOCATION
+//            ) == PackageManager.PERMISSION_GRANTED &&
+//            ActivityCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.ACCESS_FINE_LOCATION
+//            ) == PackageManager.PERMISSION_GRANTED
+//        ) {
+//            return true
+//        }
+//        return false
+//    }
+//
+//    // if permission is not given we request for it.
+//    private fun requestPermissions() {
+//        ActivityCompat.requestPermissions(
+//            this@MainActivity,
+//            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+//            REQUEST_PERMISSIONS_REQUEST_CODE
+//        )
+//    }
+//
+//    // here is the result of the request.
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int, permissions: Array<String>,
+//        grantResults: IntArray
+//    ) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+//            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                // Granted. Start getting the location information
+//                Log.d("values", "on result permission granted")
+//                getLastLocation()
+//                startActivity(Intent(this,MainActivity::class.java))
+//                finish()
+//                overridePendingTransition(0, 0);
+//
+//            } else {
+//                Log.d("values", "on result permission denied")
+//                requestPermissions()
+//            }
+//        }
+//    }
+//
+//    @SuppressLint("MissingPermission")
+//    private fun requestNewLocationData() {
+//        val mLocationRequest = LocationRequest()
+//        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+//        mLocationRequest.interval = 0
+//        mLocationRequest.fastestInterval = 0
+//        mLocationRequest.numUpdates = 1
+//
+//        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+//        mFusedLocationClient!!.requestLocationUpdates(
+//            mLocationRequest, mLocationCallback,
+//            Looper.myLooper()
+//        )
+//    }
+//
+//    private val mLocationCallback = object : LocationCallback() {
+//        override fun onLocationResult(locationResult: LocationResult) {
+//            val mLastLocation: Location = locationResult.lastLocation
+//            val lat1 = mLastLocation.latitude.toString()
+//            val lon1 = mLastLocation.longitude.toString()
+//            localKeyStorage.saveValue(LocalKeyStorage.latitude , lat1)
+//            localKeyStorage.saveValue(LocalKeyStorage.longitude , lon1)
+//            Log.d("values", " lat1lon1 $lat1 $lon1")
+//        }
+//    }
+//
+//    // check if location is turned on or not of the device.
+//    private fun isLocationEnabled(): Boolean {
+//        val locationManager: LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+//            LocationManager.NETWORK_PROVIDER
+//        )
+//    }
+//    companion object {
+//        private const val REQUEST_PERMISSIONS_REQUEST_CODE = 34
+//    }
 }

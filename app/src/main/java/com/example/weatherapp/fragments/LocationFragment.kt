@@ -23,6 +23,7 @@ import com.example.weatherapp.util.InternetConnectivity
 import com.example.weatherapp.util.LocalKeyStorage
 
 import com.example.weatherapp.viewModel.LocationViewModel
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.fragment_about.*
 import kotlinx.android.synthetic.main.fragment_about.backbtn
 import kotlinx.android.synthetic.main.fragment_location.*
@@ -73,26 +74,8 @@ class LocationFragment : Fragment(), SearchView.OnQueryTextListener,
             LviewModel.isInternet(false)
             Toast.makeText(context,"No Internet Connection",Toast.LENGTH_LONG).show()
         }
-
-//        val searchRView = binding.recyclerView
-//        searchRView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-//        locateAdapter = LocateAdapter(requireContext())
-//        searchRView.adapter = locateAdapter
-//        LviewModel.getCityName("ghaziabad")
         searchView.isIconified = false
-//        searchView.setOnClickListener {
-//            LviewModel.getCityName("ghaziabad")
-//        }
-        LviewModel.cityName.observe(viewLifecycleOwner,{
-            if(!it.isNullOrEmpty()) {
-                Log.d("bat", "onViewCreated: $it")
- //               it[0].name?.let { it1 -> locateAdapter.setCity(it1.toString()) }
-                Log.d("check",it.toString())
-            }
-
-        })
         searchView.setOnClickListener {
-//            LviewModel.getCityName()
             searchView.isIconified = false
         }
         searchView.setOnQueryTextListener(this)
@@ -129,7 +112,6 @@ class LocationFragment : Fragment(), SearchView.OnQueryTextListener,
         Log.d("error", "qtc")
         return false
     }
-
 }
 
 

@@ -7,7 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.SwitchCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -29,7 +32,7 @@ class TodayFragment : Fragment() {
     private lateinit var todayWeatherAdapter: TodayWeatherRecyclerAdapter
     var todayWeatherHourly: ArrayList<HourlyWeatherListType> = ArrayList()
     var tomorrowWeatherHourly: ArrayList<HourlyWeatherListType> = ArrayList()
-    lateinit var localKeyStorage : LocalKeyStorage
+    lateinit var localKeyStorage: LocalKeyStorage
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -47,28 +50,28 @@ class TodayFragment : Fragment() {
 
         localKeyStorage = LocalKeyStorage(requireContext())
 
-        if(InternetConnectivity.isNetworkAvailable(requireContext())){
-      //      val isCelsius = arguments?.getBoolean("isCelsius")
+        if (InternetConnectivity.isNetworkAvailable(requireContext())) {
+            //      val isCelsius = arguments?.getBoolean("isCelsius")
             val isFahrenheit = localKeyStorage.getValue("isFahrenheit")
             val lat = localKeyStorage.getValue("latitude")
             val lon = localKeyStorage.getValue("longitude")
             Log.d("isFahrenheit", isFahrenheit.toString())
-            getAndSetData(binding , isFahrenheit, lat, lon)
+            getAndSetData(binding, isFahrenheit, lat, lon)
             viewModel.isInternet(true)
-        }else{
+        } else {
             viewModel.isInternet(false)
-            Toast.makeText(context,"No Internet Connection",Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG).show()
         }
 
         return view
     }
 
-   private fun getAndSetData(
-       binding: FragmentTodayBinding,
-       isFahrenheit: String?,
-       lat: String?,
-       lon: String?
-   ) {
+    private fun getAndSetData(
+        binding: FragmentTodayBinding,
+        isFahrenheit: String?,
+        lat: String?,
+        lon: String?
+    ) {
         viewModel.getWeatherHourly(isFahrenheit, lat, lon).observe(viewLifecycleOwner, Observer {
             todayWeatherHourly.clear()
             tomorrowWeatherHourly.clear()
@@ -78,16 +81,18 @@ class TodayFragment : Fragment() {
             binding.currentTemp.text = it.temp
             binding.feelsLikeTemp.text = it.feelsLikeTemp
             binding.sunriseData.text = SimpleDateFormat("h:mm a", Locale.ENGLISH).format(
-                Date((it.current.sunrise).toLong() * 1000))
+                Date((it.current.sunrise).toLong() * 1000)
+            )
             binding.sunsetData.text = SimpleDateFormat("h:mm a", Locale.ENGLISH).format(
-                Date((it.current.sunset).toLong() * 1000))
+                Date((it.current.sunset).toLong() * 1000)
+            )
             binding.uviData.text = it.current.uvi.toString()
             binding.pressureData.text = it.current.pressure.toString()
             binding.humidityData.text = "${it.current.humidity}%"
-            if(isFahrenheit=="true"){
+            if (isFahrenheit == "true") {
                 binding.windData.text = "${it.current.wind_speed}mi/h"
                 binding.dewPoint.text = "${it.current.dew_point.toInt()}°F"
-            }else{
+            } else {
                 binding.windData.text = "${it.current.wind_speed}m/s"
                 binding.dewPoint.text = "${it.current.dew_point.toInt()}°C"
             }
@@ -110,5 +115,17 @@ class TodayFragment : Fragment() {
             }
 
         })
+    }
+
+    @SuppressLint("CutPasteId", "UseCompatLoadingForDrawables")
+    override fun onStart() {
+        super.onStart()
+        requireActivity().findViewById<TextView>(R.id.txtlocation).visibility = View.VISIBLE
+        requireActivity().findViewById<ImageView>(R.id.icsrch).visibility = View.VISIBLE
+        requireActivity().findViewById<SwitchCompat>(R.id.conSwitch).visibility = View.VISIBLE
+        requireActivity().findViewById<androidx.appcompat.widget.Toolbar>(R.id.topAppBar).navigationIcon =
+            resources.getDrawable(R.drawable.ic_icon)
+        requireActivity().findViewById<androidx.appcompat.widget.Toolbar>(R.id.topAppBar).title =
+            null
     }
 }

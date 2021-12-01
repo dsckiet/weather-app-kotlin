@@ -7,7 +7,7 @@
     <string name="enable_gps">enable_gps</string>
     <string name="required_for_this_app">required</string>
     <string name="enable_now">enable now</string>
-    <string name="forecast">From Today\'s Temperature to 7 days\' update.<br/> Weather App shows the most accurate forecast</string>
+    <string name="forecast">From Today\'s Temperature to 7 days\' update.<br /> Weather App shows the most accurate forecast</string>
     <string name="location_permission_not_granted">not granted</string>
     <string name="no_location_detected">No Location Detected</string>
     <string name="permission_rationale">Permission Rationale</string>
