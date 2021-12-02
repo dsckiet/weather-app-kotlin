@@ -62,6 +62,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navController = navHostFragment.navController
 
 
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            when(destination.id){
+                R.id.aboutFragment -> nav_view.visibility = View.GONE
+                R.id.feedbackFragment -> nav_view.visibility = View.GONE
+                R.id.locationFragment -> nav_view.visibility = View.GONE
+                else -> nav_view.visibility = View.VISIBLE
+            }
+        }
         setSupportActionBar(topAppBar)
         val actionBar = supportActionBar
         actionBar?.title = " "
@@ -106,35 +114,35 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //        }
 
         val menu = binding.navView.menu
-//        val menuItem = menu.findItem(R.id.conversion)
-//        if(menuItem.isChecked){
-//            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , "true")
-//        }
-//        else{
-//            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , "false")
-//        }
+        val menuItem = menu.findItem(R.id.conversion)
+        if(menuItem.isChecked){
+            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , "true")
+        }
+        else{
+            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , "false")
+        }
 
-       // val view = MenuItemCompat.getActionView(menuItem)
-//        val view = menuItem.actionView
-//        val switch : SwitchCompat = view.findViewById(R.id.switch_id)
-//        switch.isChecked = localKeyStorage.getValue("isFahrenheit") == "true"
-//        switch.setOnCheckedChangeListener { _, isChecked ->
-//
-//            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , isChecked.toString())
-//
-////            val bundle = Bundle()
-////            bundle.putBoolean("isCelsius" , isChecked)
-//            Log.d("togglemain", isChecked.toString())
-//            navController.navigate(R.id.action_homeFragment_self)
-//        }
+//        val view = MenuItemCompat.getActionView(menuItem)
+        val view = menuItem.actionView
+        val switch : SwitchCompat = view.findViewById(R.id.switch_id)
+        switch.isChecked = localKeyStorage.getValue("isFahrenheit") == "true"
+        switch.setOnCheckedChangeListener { _, isChecked ->
 
-        val switchh : SwitchCompat = findViewById(R.id.conSwitch)
-        switchh.isChecked = localKeyStorage.getValue("isFahrenheit") == "true"
-        switchh.setOnCheckedChangeListener { _, isChecked ->
- 
             localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , isChecked.toString())
+
+//            val bundle = Bundle()
+//            bundle.putBoolean("isCelsius" , isChecked)
             Log.d("togglemain", isChecked.toString())
             navController.navigate(R.id.action_homeFragment_self)
+//        }
+
+//        val switchh : SwitchCompat = findViewById(R.id.conSwitch)
+//        switchh.isChecked = localKeyStorage.getValue("isFahrenheit") == "true"
+//        switchh.setOnCheckedChangeListener { _, isChecked ->
+//
+//            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , isChecked.toString())
+//            Log.d("togglemain", isChecked.toString())
+//            navController.navigate(R.id.action_homeFragment_self)
 
 //            finish()
 //            startActivity(intent)
@@ -168,10 +176,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 drawerLayout.close()
 
             }
-            else -> Toast.makeText(this,"Error", Toast.LENGTH_SHORT).show()
+//            else -> Toast.makeText(this,"Error", Toast.LENGTH_SHORT).show()
         }
         return true
     }
+
 
     //location vala part
 

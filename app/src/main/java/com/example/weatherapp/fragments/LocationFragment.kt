@@ -23,12 +23,10 @@ import com.example.weatherapp.util.InternetConnectivity
 import com.example.weatherapp.util.LocalKeyStorage
 
 import com.example.weatherapp.viewModel.LocationViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_about.*
 import kotlinx.android.synthetic.main.fragment_about.backbtn
 import kotlinx.android.synthetic.main.fragment_location.*
-//import com.example.weatherapp.dataclass.SearchLocationItem
-//import com.example.weatherapp.dataclass.Values
-//import com.example.weatherapp.viewModel.LocationViewModel
 import retrofit2.Call
 
 
@@ -52,6 +50,7 @@ class LocationFragment : Fragment(), SearchView.OnQueryTextListener,
         localKeyStorage = LocalKeyStorage(requireContext())
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
 
+
         return view
     }
 
@@ -63,8 +62,14 @@ class LocationFragment : Fragment(), SearchView.OnQueryTextListener,
         binding.lifecycleOwner = this
         binding.lottie.visibility = View.GONE
 
+//        nav_view.visibility = View.GONE
+
         backbtn2.setOnClickListener {
             findNavController().navigate(R.id.action_locationFragment_to_homeFragment)
+//                findNavController().popBackStack()
+        }
+        backbtn2.setOnClickListener {
+            findNavController().popBackStack()
         }
 
         if(InternetConnectivity.isNetworkAvailable(requireContext())){
@@ -74,25 +79,17 @@ class LocationFragment : Fragment(), SearchView.OnQueryTextListener,
             Toast.makeText(context,"No Internet Connection",Toast.LENGTH_LONG).show()
         }
 
-//        val searchRView = binding.recyclerView
-//        searchRView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-//        locateAdapter = LocateAdapter(requireContext())
-//        searchRView.adapter = locateAdapter
-//        LviewModel.getCityName("ghaziabad")
         searchView.isIconified = false
-//        searchView.setOnClickListener {
-//            LviewModel.getCityName("ghaziabad")
-//        }
+
         LviewModel.cityName.observe(viewLifecycleOwner,{
             if(!it.isNullOrEmpty()) {
                 Log.d("bat", "onViewCreated: $it")
- //               it[0].name?.let { it1 -> locateAdapter.setCity(it1.toString()) }
+
                 Log.d("check",it.toString())
             }
 
         })
         searchView.setOnClickListener {
-//            LviewModel.getCityName()
             searchView.isIconified = false
         }
         searchView.setOnQueryTextListener(this)
@@ -125,10 +122,11 @@ class LocationFragment : Fragment(), SearchView.OnQueryTextListener,
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-    //    LviewModel.getCityName(newText.toString())
         Log.d("error", "qtc")
         return false
     }
+
+
 
 }
 
