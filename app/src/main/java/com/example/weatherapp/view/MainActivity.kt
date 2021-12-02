@@ -23,6 +23,7 @@ import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
 import androidx.core.view.MenuItemCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -62,12 +63,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navController = navHostFragment.navController
 
 
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            when(destination.id){
-                R.id.aboutFragment -> nav_view.visibility = View.GONE
-                R.id.feedbackFragment -> nav_view.visibility = View.GONE
-                R.id.locationFragment -> nav_view.visibility = View.GONE
-                else -> nav_view.visibility = View.VISIBLE
+        navController.addOnDestinationChangedListener{_, destination, _ ->
+
+            if (destination.id == R.id.aboutFragment) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
+
+            } else if (destination.id == R.id.feedbackFragment) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
+            }  else if (destination.id == R.id.locationFragment) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
+            }else {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
             }
         }
         setSupportActionBar(topAppBar)

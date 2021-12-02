@@ -49,8 +49,7 @@ class LocationFragment : Fragment(), SearchView.OnQueryTextListener,
         val view = binding.root
         localKeyStorage = LocalKeyStorage(requireContext())
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
-
-
+        (requireActivity() as AppCompatActivity).actionBar?.setDisplayShowCustomEnabled(false)
         return view
     }
 
@@ -61,7 +60,6 @@ class LocationFragment : Fragment(), SearchView.OnQueryTextListener,
         binding.lViewModel = LviewModel
         binding.lifecycleOwner = this
         binding.lottie.visibility = View.GONE
-
 //        nav_view.visibility = View.GONE
 
         backbtn2.setOnClickListener {
