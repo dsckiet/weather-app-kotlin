@@ -49,7 +49,7 @@ class DaysFragment : Fragment() {
             dayWeatherData = it.data as ArrayList<DaysWeatherListType>
             binding.daysRV.apply {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                dayWeatherAdapter = DayWeatherRecyclerAdapter(requireContext())
+                dayWeatherAdapter = DayWeatherRecyclerAdapter(requireContext(),-1)
                 adapter = dayWeatherAdapter
                 dayWeatherAdapter.setWeather(dayWeatherData)
             }
