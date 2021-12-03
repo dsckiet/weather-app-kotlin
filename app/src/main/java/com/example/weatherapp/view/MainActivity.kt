@@ -23,6 +23,7 @@ import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
 import androidx.core.view.MenuItemCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -62,6 +63,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navController = navHostFragment.navController
 
 
+        navController.addOnDestinationChangedListener{_, destination, _ ->
+
+            if (destination.id == R.id.aboutFragment) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
+
+            } else if (destination.id == R.id.feedbackFragment) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
+            }  else if (destination.id == R.id.locationFragment) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
+            }else {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            }
+        }
         setSupportActionBar(topAppBar)
         val actionBar = supportActionBar
         actionBar?.title = " "
@@ -106,35 +123,35 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //        }
 
         val menu = binding.navView.menu
-//        val menuItem = menu.findItem(R.id.conversion)
-//        if(menuItem.isChecked){
-//            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , "true")
-//        }
-//        else{
-//            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , "false")
-//        }
+        val menuItem = menu.findItem(R.id.conversion)
+        if(menuItem.isChecked){
+            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , "true")
+        }
+        else{
+            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , "false")
+        }
 
-       // val view = MenuItemCompat.getActionView(menuItem)
-//        val view = menuItem.actionView
-//        val switch : SwitchCompat = view.findViewById(R.id.switch_id)
-//        switch.isChecked = localKeyStorage.getValue("isFahrenheit") == "true"
-//        switch.setOnCheckedChangeListener { _, isChecked ->
-//
-//            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , isChecked.toString())
-//
-////            val bundle = Bundle()
-////            bundle.putBoolean("isCelsius" , isChecked)
-//            Log.d("togglemain", isChecked.toString())
-//            navController.navigate(R.id.action_homeFragment_self)
-//        }
+//        val view = MenuItemCompat.getActionView(menuItem)
+        val view = menuItem.actionView
+        val switch : SwitchCompat = view.findViewById(R.id.switch_id)
+        switch.isChecked = localKeyStorage.getValue("isFahrenheit") == "true"
+        switch.setOnCheckedChangeListener { _, isChecked ->
 
-        val switchh : SwitchCompat = findViewById(R.id.conSwitch)
-        switchh.isChecked = localKeyStorage.getValue("isFahrenheit") == "true"
-        switchh.setOnCheckedChangeListener { _, isChecked ->
- 
             localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , isChecked.toString())
+
+//            val bundle = Bundle()
+//            bundle.putBoolean("isCelsius" , isChecked)
             Log.d("togglemain", isChecked.toString())
             navController.navigate(R.id.action_homeFragment_self)
+//        }
+
+//        val switchh : SwitchCompat = findViewById(R.id.conSwitch)
+//        switchh.isChecked = localKeyStorage.getValue("isFahrenheit") == "true"
+//        switchh.setOnCheckedChangeListener { _, isChecked ->
+//
+//            localKeyStorage.saveValue(LocalKeyStorage.FAHRENHEIT , isChecked.toString())
+//            Log.d("togglemain", isChecked.toString())
+//            navController.navigate(R.id.action_homeFragment_self)
 
 //            finish()
 //            startActivity(intent)
@@ -168,10 +185,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 drawerLayout.close()
 
             }
-            else -> Toast.makeText(this,"Error", Toast.LENGTH_SHORT).show()
+//            else -> Toast.makeText(this,"Error", Toast.LENGTH_SHORT).show()
         }
         return true
     }
+
 
     //location vala part
 

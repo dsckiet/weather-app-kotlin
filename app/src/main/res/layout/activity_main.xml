@@ -67,15 +67,15 @@
                             android:shadowColor="@color/white"
                             android:src="@drawable/searchicon" />
 
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/conSwitch"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:layout_marginRight="10dp"
-                            android:text="C/F"
-                            android:textColor="@color/white"
-                            android:textStyle="bold" />
+<!--                        <androidx.appcompat.widget.SwitchCompat-->
+<!--                            android:id="@+id/conSwitch"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="right"-->
+<!--                            android:layout_marginRight="10dp"-->
+<!--                            android:text="C/F"-->
+<!--                            android:textColor="@color/white"-->
+<!--                            android:textStyle="bold" />-->
 
                     </androidx.appcompat.widget.Toolbar>
 

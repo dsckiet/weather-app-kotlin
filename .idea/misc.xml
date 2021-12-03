@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin-1/app/src/main/res/drawable/arrow_down.xml" value="0.2125" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin-1/app/src/main/res/drawable/arrow_up.xml" value="0.2125" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin-1/app/src/main/res/drawable/round_background.xml" value="0.2125" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin-1/app/src/main/res/drawable/searchicon.xml" value="0.2125" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/weather-app-kotlin-1/app/src/main/res/layout/activity_main.xml" value="0.33" />
