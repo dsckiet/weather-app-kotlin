@@ -28,11 +28,13 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.weatherapp.BuildConfig
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ActivityMainBinding
 import com.example.weatherapp.fragments.TodayFragment
+import com.example.weatherapp.fragments.WrapperFragment
 import com.example.weatherapp.util.LocalKeyStorage
 import com.example.weatherapp.viewModel.LocationViewModel
 import com.example.weatherapp.viewModel.MainViewModel
@@ -83,6 +85,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         icsrch.setOnClickListener {
             navController.navigate(R.id.action_homeFragment_to_locationFragment)
         }
+//        myLocation.setOnClickListener {
+//            val fragment = WrapperFragment()
+//            fragment.getMyLocation()
+//        }
+
         localKeyStorage = LocalKeyStorage(this)
         binding.txtlocation.text = localKeyStorage.getValue(LocalKeyStorage.cityName)
 
@@ -135,7 +142,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-//    @SuppressLint("MissingPermission")
+    //    @SuppressLint("MissingPermission")
 //    private fun getLastLocation() {
 //        if(checkPermissions()){
 //            if (isLocationEnabled()){

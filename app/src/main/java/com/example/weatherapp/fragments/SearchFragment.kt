@@ -21,6 +21,7 @@ import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentSearchBinding
 import com.example.weatherapp.util.InternetConnectivity
 import com.example.weatherapp.util.LocalKeyStorage
+import com.example.weatherapp.util.hideKeyboard
 import com.example.weatherapp.viewModel.LocationViewModel
 
 class SearchFragment : Fragment() {
@@ -45,9 +46,6 @@ class SearchFragment : Fragment() {
         binding.lViewModel2 = LviewModel
         binding.lifecycleOwner = this
         binding.lottie.visibility = View.GONE
-        val inputMethodManager =
-            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         if (InternetConnectivity.isNetworkAvailable(requireContext())) {
             LviewModel.isInternet(true)
         } else {
@@ -81,6 +79,7 @@ class SearchFragment : Fragment() {
                             localKeyStorage.saveValue(LocalKeyStorage.cityName,it[0].name.toString())
                             val view = requireActivity().findViewById<TextView>(R.id.txtlocation)
                             view.text = localKeyStorage.getValue(LocalKeyStorage.cityName)
+                            hideKeyboard(requireActivity())
                             findNavController().navigate(R.id.action_searchFragment_to_homeFragment)
                             }
                         } else {

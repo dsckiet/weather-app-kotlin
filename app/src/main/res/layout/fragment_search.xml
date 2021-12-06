@@ -79,7 +79,7 @@
                         android:inputType="text"
                         android:maxLines="1"
                         android:layout_marginBottom="@dimen/dimen_8"
-                        android:textColor="@color/purple_200"
+                        android:textColor="@color/primaryC"
                         android:textColorHint="#B31E40AF"
                         android:textSize="@dimen/dimen_text_20"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -99,7 +99,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/purple_200" />
+                        app:tint="@color/primaryC" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

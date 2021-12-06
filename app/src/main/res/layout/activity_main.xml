@@ -67,6 +67,15 @@
                             android:shadowColor="@color/white"
                             android:src="@drawable/searchicon" />
 
+                        <ImageView
+                            android:id="@+id/myLocationBtn"
+                            android:layout_width="25dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="end|center"
+                            android:layout_marginEnd="@dimen/dimen_16"
+                            android:shadowColor="@color/white"
+                            android:src="@drawable/ic_baseline_my_location_24" />
+
                         <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/conSwitch"
                             android:layout_width="wrap_content"

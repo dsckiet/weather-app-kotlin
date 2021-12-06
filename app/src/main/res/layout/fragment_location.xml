@@ -12,53 +12,226 @@
 
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+        tools:context=".fragments.SearchFragment">
 
-        <ImageView
-            android:id="@+id/backbtn2"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/back"/>
-
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchView"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="15dp"
-            app:queryHint="Search Location"
-            app:iconifiedByDefault="false"
-            app:queryBackground="@android:color/transparent"
-            android:background="@drawable/searchbg" />
-        </LinearLayout>
+            android:layout_height="match_parent">
 
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/recyclerView"-->
-<!--            android:layout_width="match_parent"-->
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/startGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/endGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/topGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.025" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/bottomGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="@dimen/dimen_4" />
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/search_city_card"
+                android:layout_width="@dimen/dimen_0"
+                android:layout_height="@dimen/dimen_50"
+                app:cardBackgroundColor="#EEF5F6"
+                app:cardCornerRadius="@dimen/dimen_16"
+                app:cardElevation="@dimen/dimen_8"
+                app:layout_constraintEnd_toEndOf="@id/endGuideline"
+                app:layout_constraintStart_toStartOf="@id/startGuideline"
+                app:layout_constraintTop_toTopOf="@id/topGuideline">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/backbtn"
+                        android:layout_width="@dimen/dimen_20"
+                        android:layout_height="@dimen/dimen_20"
+                        android:layout_marginStart="@dimen/dimen_16"
+                        android:layout_marginBottom="@dimen/dimen_4"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:contentDescription="search button"
+                        android:src="@drawable/ic_back_button"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/primaryC" />
+
+                    <EditText
+                        android:id="@+id/search_city"
+                        android:layout_width="@dimen/dimen_0"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_8"
+                        android:layout_marginEnd="@dimen/dimen_8"
+                        android:paddingStart="@dimen/dimen_4"
+                        android:background="@null"
+                        android:focusable="true"
+                        android:fontFamily="@font/alata_regular"
+                        android:hint="Search location"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:layout_marginBottom="@dimen/dimen_8"
+                        android:textColor="@color/purple_200"
+                        android:textColorHint="#B31E40AF"
+                        android:textSize="@dimen/dimen_text_20"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/search_btn"
+                        app:layout_constraintStart_toEndOf="@id/backbtn"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/change_btn"
+                        android:layout_width="@dimen/dimen_20"
+                        android:layout_height="@dimen/dimen_20"
+                        android:layout_marginEnd="@dimen/dimen_16"
+                        android:layout_marginBottom="@dimen/dimen_4"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:contentDescription="search button"
+                        android:src="@drawable/searchicon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/primaryC" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/city_Name_card"
+                android:layout_width="@dimen/dimen_0"
+                android:layout_height="@dimen/dimen_50"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/alata_regular"
+                app:cardCornerRadius="@dimen/dimen_16"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/endGuideline"
+                app:layout_constraintStart_toStartOf="@id/startGuideline"
+                app:layout_constraintTop_toBottomOf="@id/search_city_card">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/cityName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/dimen_text_20"
+                        android:layout_marginStart="@dimen/dimen_20"
+                        android:layout_marginEnd="@dimen/dimen_20"
+                        app:layout_constraintEnd_toStartOf="@id/locationImg"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/locationImg"
+                        android:layout_width="@dimen/dimen_28"
+                        android:layout_height="@dimen/dimen_28"
+                        android:layout_gravity="center|end"
+                        android:layout_marginEnd="@dimen/dimen_16"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_baseline_location_on_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/purple_200" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/bottomGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/city_Name_card">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lottie"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:visibility="@{lViewModel.isInternet()==true?View.GONE:View.VISIBLE}"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/somethingwentwrong" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical">-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
 <!--            android:layout_height="wrap_content"-->
-<!--            tools:listitem="@layout/search" />-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center">
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottie"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:visibility="@{lViewModel.isInternet()==true?View.GONE:View.VISIBLE}"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/somethingwentwrong" />
-        </LinearLayout>
+<!--            android:orientation="horizontal">-->
 
-    </LinearLayout>
+<!--        <ImageView-->
+<!--            android:id="@+id/backbtn2"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_marginTop="25dp"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:src="@drawable/back"/>-->
+
+<!--        <androidx.appcompat.widget.SearchView-->
+<!--            android:id="@+id/searchView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_margin="15dp"-->
+<!--            app:queryHint="Search Location"-->
+<!--            app:iconifiedByDefault="false"-->
+<!--            app:queryBackground="@android:color/transparent"-->
+<!--            android:background="@drawable/searchbg" />-->
+<!--        </LinearLayout>-->
+
+<!--&lt;!&ndash;        <androidx.recyclerview.widget.RecyclerView&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/recyclerView"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            tools:listitem="@layout/search" />&ndash;&gt;-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:orientation="vertical"-->
+<!--            android:gravity="center">-->
+<!--        <com.airbnb.lottie.LottieAnimationView-->
+<!--            android:id="@+id/lottie"-->
+<!--            android:layout_width="250dp"-->
+<!--            android:layout_height="250dp"-->
+<!--            android:visibility="@{lViewModel.isInternet()==true?View.GONE:View.VISIBLE}"-->
+<!--            app:lottie_autoPlay="true"-->
+<!--            app:lottie_loop="true"-->
+<!--            app:lottie_rawRes="@raw/somethingwentwrong" />-->
+<!--        </LinearLayout>-->
+
+<!--    </LinearLayout>-->
 </layout>
