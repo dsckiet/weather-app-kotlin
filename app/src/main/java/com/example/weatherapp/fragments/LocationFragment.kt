@@ -1,6 +1,8 @@
 package com.example.weatherapp.fragments
 
+import android.content.Context
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -8,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
@@ -74,44 +77,8 @@ class LocationFragment : Fragment() {
             LviewModel.isInternet(false)
             Toast.makeText(context,"No Internet Connection",Toast.LENGTH_LONG).show()
         }
-//        searchView.isIconified = false
-//        searchView.setOnClickListener {
-//            searchView.isIconified = false
-//        }
         binding.searchCity.addTextChangedListener(textWatcher)
     }
-
-//    override fun onQueryTextSubmit(query: String?): Boolean {
-//        LviewModel.cityName.observe(viewLifecycleOwner,{
-//            if(!it.isNullOrEmpty()) {
-//                Log.d("reply",it[0].name.toString())
-//                Log.d("reply",it[0].lat.toString())
-//                Log.d("reply",it[0].lon.toString())
-//                localKeyStorage.saveValue(LocalKeyStorage.latitude,it[0].lat.toString())
-//                localKeyStorage.saveValue(LocalKeyStorage.longitude,it[0].lon.toString())
-//                localKeyStorage.saveValue(LocalKeyStorage.cityName,it[0].name.toString())
-//                val view = requireActivity().findViewById<TextView>(R.id.txtlocation)
-//                view.text = localKeyStorage.getValue(LocalKeyStorage.cityName)
-//                 findNavController().popBackStack(R.id.homeFragment,true)
-//                findNavController().navigate(R.id.homeFragment)
-//
-//            }
-//            else{
-//                Toast.makeText(context,"Please enter valid city name",Toast.LENGTH_SHORT).show()
-//                Log.d("reply","please enter the valid name")
-//            }
-//
-//        })
-//        LviewModel.getCityName(query.toString())
-//        Log.d("error", query.toString())
-//        return false
-//    }
-//
-//    override fun onQueryTextChange(newText: String?): Boolean {
-//    //    LviewModel.getCityName(newText.toString())
-//        Log.d("error", "qtc")
-//        return false
-//    }
 private val textWatcher = object : TextWatcher {
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
     }
@@ -129,26 +96,37 @@ private val textWatcher = object : TextWatcher {
                     LviewModel.isInternet(false)
 //                        Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG).show()
                 }
-                LviewModel.getCityName(str.toString())
-                LviewModel.cityName.observe(viewLifecycleOwner, {
-                    if (!it.isNullOrEmpty()) {
-                        binding.cityNameCard.visibility = View.VISIBLE
-                        binding.cityName.text = it[0].name
-                        binding.cityNameCard.setOnClickListener { lol ->
-                            localKeyStorage.saveValue(LocalKeyStorage.latitude,it[0].lat.toString())
-                            localKeyStorage.saveValue(LocalKeyStorage.longitude,it[0].lon.toString())
-                            localKeyStorage.saveValue(LocalKeyStorage.cityName,it[0].name.toString())
-                            val view = requireActivity().findViewById<TextView>(R.id.txtlocation)
-                            view.text = localKeyStorage.getValue(LocalKeyStorage.cityName)
-                            findNavController().popBackStack(R.id.homeFragment,true)
-                            findNavController().navigate(R.id.homeFragment)
-                        }
-                    } else {
-                        binding.cityNameCard.visibility = View.GONE
-                        Log.d("reply", "please enter the valid name")
+
+                object : CountDownTimer(500,1000){
+                    override fun onTick(millisUntilFinished: Long) {
+                        Log.d("timer testing","h")
                     }
 
-                })
+                    override fun onFinish() {
+                        Log.d("timer testing","hogya")
+                        LviewModel.getCityName(str.toString())
+                        LviewModel.cityName.observe(viewLifecycleOwner, {
+                            if (!it.isNullOrEmpty()) {
+                                binding.cityNameCard.visibility = View.VISIBLE
+                                binding.cityName.text = it[0].name
+                                binding.cityNameCard.setOnClickListener { lol ->
+                                    localKeyStorage.saveValue(LocalKeyStorage.latitude,it[0].lat.toString())
+                                    localKeyStorage.saveValue(LocalKeyStorage.longitude,it[0].lon.toString())
+                                    localKeyStorage.saveValue(LocalKeyStorage.cityName,it[0].name.toString())
+                                    val view = requireActivity().findViewById<TextView>(R.id.txtlocation)
+                                    view.text = localKeyStorage.getValue(LocalKeyStorage.cityName)
+
+                                    findNavController().popBackStack(R.id.homeFragment,true)
+                                    findNavController().navigate(R.id.homeFragment)
+                                }
+                            } else {
+                                binding.cityNameCard.visibility = View.GONE
+                                Log.d("reply", "please enter the valid name")
+                            }
+                        })
+
+                    }
+                }.start()
             }else{
                 binding.changeBtn.setImageResource(R.drawable.searchicon)
             }
@@ -158,7 +136,6 @@ private val textWatcher = object : TextWatcher {
     override fun afterTextChanged(s: Editable?) {
     }
 }
-
 }
 
 

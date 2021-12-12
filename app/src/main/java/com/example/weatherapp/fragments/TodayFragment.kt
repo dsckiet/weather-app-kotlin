@@ -3,12 +3,14 @@ package com.example.weatherapp.fragments
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
@@ -30,8 +32,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
 import com.example.weatherapp.adapter.TodayWeatherRecyclerAdapter
+import com.example.weatherapp.dataClass.CityName
 import com.example.weatherapp.dataClass.HourlyWeatherListType
 import com.example.weatherapp.databinding.FragmentTodayBinding
+import com.example.weatherapp.repository.WeatherRepository
 import com.example.weatherapp.util.InternetConnectivity
 import com.example.weatherapp.util.LocalKeyStorage
 import com.example.weatherapp.util.hideKeyboard
@@ -39,6 +43,10 @@ import com.example.weatherapp.view.MainActivity
 import com.example.weatherapp.viewModel.MainViewModel
 import com.google.android.gms.location.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.android.synthetic.main.fragment_search.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -52,6 +60,10 @@ class TodayFragment : Fragment() {
     lateinit var localKeyStorage: LocalKeyStorage
     private var mLastLocation: Location? = null
     private var mFusedLocationClient: FusedLocationProviderClient? = null
+    lateinit var response: Call<List<CityName>>
+    private val repoInstance = WeatherRepository(Application())
+    lateinit var cityName : String
+    private val ctx = this
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -146,7 +158,6 @@ class TodayFragment : Fragment() {
         requireActivity().findViewById<TextView>(R.id.txtlocation).visibility = View.VISIBLE
         requireActivity().findViewById<ImageView>(R.id.icsrch).visibility = View.VISIBLE
         requireActivity().findViewById<ImageView>(R.id.myLocationBtn).visibility = View.VISIBLE
-        requireActivity().findViewById<SwitchCompat>(R.id.conSwitch).visibility = View.VISIBLE
         requireActivity().findViewById<androidx.appcompat.widget.Toolbar>(R.id.topAppBar).navigationIcon =
             resources.getDrawable(R.drawable.ic_icon)
         requireActivity().findViewById<androidx.appcompat.widget.Toolbar>(R.id.topAppBar).title =
@@ -163,14 +174,20 @@ class TodayFragment : Fragment() {
                         if (mLastLocation != null) {
                             val lat = mLastLocation!!.latitude.toString()
                             val lon = mLastLocation!!.longitude.toString()
-                            val cityName = viewModel.getCityName(lat, lon)
-                            localKeyStorage.saveValue(LocalKeyStorage.latitude, lat)
-                            localKeyStorage.saveValue(LocalKeyStorage.longitude, lon)
-                            localKeyStorage.saveValue(LocalKeyStorage.cityName, cityName)
-                            val view = requireActivity().findViewById<TextView>(R.id.txtlocation)
-                            view.text = localKeyStorage.getValue(LocalKeyStorage.cityName)
-                            hideKeyboard(requireActivity())
-                            findNavController().navigate(R.id.action_homeFragment_self)
+                            viewModel.getCityName(lat, lon).observe(viewLifecycleOwner, Observer {
+                                if(it != null) {
+                                    cityName = it[0].name
+                                    Log.d("batao" , " hello to $cityName")
+                                    localKeyStorage.saveValue(LocalKeyStorage.latitude, lat)
+                                    localKeyStorage.saveValue(LocalKeyStorage.longitude, lon)
+                                    Log.d("batao" , " hello to $cityName people")
+                                    localKeyStorage.saveValue(LocalKeyStorage.cityName, cityName)
+                                    val view = ctx.requireActivity().findViewById<TextView>(R.id.txtlocation)
+                                    view.text = localKeyStorage.getValue(LocalKeyStorage.cityName)
+                                    findNavController().navigate(R.id.action_homeFragment_self)
+                                }
+                            })
+
                             Log.d("values", " latlon $lat $lon")
                         } else {
                             Log.d("values", "location null and call requestNewLocationData")
@@ -261,6 +278,7 @@ class TodayFragment : Fragment() {
             val lon1 = mLastLocation.longitude.toString()
             localKeyStorage.saveValue(LocalKeyStorage.latitude, lat1)
             localKeyStorage.saveValue(LocalKeyStorage.longitude, lon1)
+            Log.d("cityname" , "CityName")
             Log.d("values", " lat1lon1 $lat1 $lon1")
         }
     }

@@ -17,7 +17,7 @@ class MainViewModel constructor(application: Application) : AndroidViewModel(app
     private val TAG = "mainViewModel"
     private val repoInstance = WeatherRepository(application)
     lateinit var weather: Call<MainWeather>
-    lateinit var response: Call<CityName>
+    lateinit var response: Call<List<CityName>>
     val weather_hourly = MutableLiveData<WeatherData>()
     val weather_daily = MutableLiveData<WeatherDataDays>()
     var daysData: MutableList<DaysWeatherListType> = mutableListOf()
@@ -31,7 +31,7 @@ class MainViewModel constructor(application: Application) : AndroidViewModel(app
     lateinit var temperatureUnit: String
     lateinit var windSpeedUnit: String
     private var apiQueryUnit: String = ""
-    var cityName : String = ""
+    var cityName = MutableLiveData<List<CityName>>()
 
     fun getWeatherHourly(
         isFahrenheit: String?,
@@ -158,17 +158,17 @@ class MainViewModel constructor(application: Application) : AndroidViewModel(app
         return weather_daily
     }
 
-    fun getCityName(lat: String?, lon: String?) : String {
+    fun getCityName(lat: String?, lon: String?) : MutableLiveData<List<CityName>> {
         this.response = repoInstance.getCityName(lat, lon)
-        response.enqueue(object : Callback<CityName> {
-            override fun onResponse(call: Call<CityName>, response: Response<CityName>) {
+        response.enqueue(object : Callback<List<CityName>> {
+            override fun onResponse(call: Call<List<CityName>>, response: Response<List<CityName>>) {
                 val response = response.body()
                 if (response != null) {
-                     cityName = response.name
+                     cityName.value = response
                 }
             }
 
-            override fun onFailure(call: Call<CityName>, t: Throwable) {
+            override fun onFailure(call: Call<List<CityName>>, t: Throwable) {
                 Log.d("batao", "Error in fetching", t)
             }
         })

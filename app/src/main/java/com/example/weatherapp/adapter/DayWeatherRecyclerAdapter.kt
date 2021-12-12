@@ -4,15 +4,19 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weatherapp.R
 import com.example.weatherapp.dataClass.DaysWeatherListType
+import kotlinx.android.synthetic.main.days_list_item.view.*
 
-class DayWeatherRecyclerAdapter(private val context: Context) :
+class DayWeatherRecyclerAdapter(private val context: Context,var isSelected:Int) :
     RecyclerView.Adapter<DayWeatherRecyclerAdapter.WeatherViewHolder>() {
+
 
     var listOfWeatherDataDaily: ArrayList<DaysWeatherListType> = ArrayList()
 
@@ -35,11 +39,30 @@ class DayWeatherRecyclerAdapter(private val context: Context) :
         holder.sunriset.text = indexOfList.sunriset
         Glide.with(context).load(indexOfList.weatherIcon).into(holder.weatherImage)
 
-        val isExpandable :Boolean = indexOfList.expandable
-        holder.expandableLayout.visibility = if (isExpandable) View.VISIBLE else View.GONE
+//     val isExpandable :Boolean = indexOfList.expandable
+//        holder.expandableLayout.visibility = if (isExpandable) View.VISIBLE else View.GONE
         holder.relativeLayout.setOnClickListener {
-            indexOfList.expandable = !indexOfList.expandable
-            notifyItemChanged(position)
+            isSelected = if(isSelected==position)
+                -1
+            else
+                position
+            notifyDataSetChanged()
+//            indexOfList.expandable = !indexOfList.expandable
+//            notifyItemChanged(position)
+//            if (isExpandable)
+//            holder.arrw.setImageResource(R.drawable.arrow_up)
+//            else
+//                holder.arrw.setImageResource(R.drawable.arrow_down)
+    }
+
+        if(isSelected==position){
+            holder.arrw.setImageResource(R.drawable.arrow_up)
+           // indexOfList.expandable = true
+            holder.expandableLayout.visibility = VISIBLE
+        }else{
+            holder.arrw.setImageResource(R.drawable.arrow_down)
+           // indexOfList.expandable = false
+            holder.expandableLayout.visibility = GONE
         }
 
 
@@ -62,6 +85,7 @@ class DayWeatherRecyclerAdapter(private val context: Context) :
         val weatherImage: ImageView = itemView.findViewById(R.id.image)
         var expandableLayout : TableLayout = itemView.findViewById(R.id.expandableLayout)
         var relativeLayout : RelativeLayout = itemView.findViewById(R.id.relativeLayout)
+        val arrw : ImageView = itemView.findViewById(R.id.arrw)
     }
 
     fun setWeather(weather: ArrayList<DaysWeatherListType>) {

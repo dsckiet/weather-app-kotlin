@@ -20,7 +20,7 @@ interface RetroInstance {
     fun getWeather(@Query("units") unit : String, @Query("lat") latitude : Float, @Query("lon") longitude : Float): Call<MainWeather>
 
     @GET("/geo/1.0/reverse?limit=1&appid=$api_key")
-    fun getCityName(@Query("lat") latitude : Float,@Query("lon") longitude : Float) : Call<CityName>
+    fun getCityName(@Query("lat") latitude : Float,@Query("lon") longitude : Float) : Call<List<CityName>>
 
 }
 

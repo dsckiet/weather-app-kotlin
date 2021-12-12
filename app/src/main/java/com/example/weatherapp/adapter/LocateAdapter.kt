@@ -8,11 +8,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
-import com.example.weatherapp.dataClass.SearchLocationsItem
 
 class LocateAdapter(requireContext: Context) :
     RecyclerView.Adapter<LocateAdapter.LocateViewHolder>() {
-    //
+
 //     lateinit var LocationItem : Locations
     var LocationItem : String = ""
 

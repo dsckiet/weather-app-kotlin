@@ -72,6 +72,14 @@ dependencies {
     //location
     implementation 'com.google.android.gms:play-services-location:18.0.0'
 
+    //Coroutine
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
+
     //moshi
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
     //retrofit

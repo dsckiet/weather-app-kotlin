@@ -28,12 +28,12 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/daysRV"
-            tools:listitem="@layout/days_list_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" />
+            app:layout_constraintTop_toBottomOf="parent"
+            tools:listitem="@layout/days_list_item" />
 
     </RelativeLayout>
 </layout>

@@ -43,11 +43,18 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.NonCancellable.cancel
 import android.R.attr.data
+import android.app.Application
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.constraintlayout.motion.widget.Debug.getLocation
+import androidx.lifecycle.Observer
+import com.example.weatherapp.dataClass.CityName
+import com.example.weatherapp.repository.WeatherRepository
 import com.example.weatherapp.util.hideKeyboard
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class WrapperFragment : Fragment() {
@@ -55,8 +62,11 @@ class WrapperFragment : Fragment() {
     private var mLastLocation: Location? = null
     lateinit var localKeyStorage: LocalKeyStorage
     lateinit var contextView: View
+    var cityName : String = ""
     private lateinit var MviewModel: MainViewModel
     private var mFusedLocationClient: FusedLocationProviderClient? = null
+    lateinit var response: Call<List<CityName>>
+    private val ctx = this
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,15 +98,19 @@ class WrapperFragment : Fragment() {
                         if (mLastLocation != null) {
                             val lat = mLastLocation!!.latitude.toString()
                             val lon = mLastLocation!!.longitude.toString()
-                            val cityName = MviewModel.getCityName(lat, lon)
-                            localKeyStorage.saveValue(LocalKeyStorage.latitude, lat)
-                            localKeyStorage.saveValue(LocalKeyStorage.longitude, lon)
-                            localKeyStorage.saveValue(LocalKeyStorage.cityName, cityName)
-                            val view = requireActivity().findViewById<TextView>(R.id.txtlocation)
-                            view.text = localKeyStorage.getValue(LocalKeyStorage.cityName)
-                            hideKeyboard(requireActivity())
-                            findNavController().navigate(R.id.action_wrapperFragment_to_homeFragment)
-                            Log.d("values", " latlon $lat $lon")
+                            MviewModel.getCityName(lat, lon).observe(viewLifecycleOwner, Observer {
+                                if(it != null) {
+                                    cityName = it[0].name
+                                    Log.d("batao" , " hello to $cityName")
+                                    localKeyStorage.saveValue(LocalKeyStorage.latitude, lat)
+                                    localKeyStorage.saveValue(LocalKeyStorage.longitude, lon)
+                                    Log.d("batao" , " hello to $cityName people")
+                                    localKeyStorage.saveValue(LocalKeyStorage.cityName, cityName)
+                                    val view = ctx.requireActivity().findViewById<TextView>(R.id.txtlocation)
+                                    view.text = localKeyStorage.getValue(LocalKeyStorage.cityName)
+                                    findNavController().navigate(R.id.action_wrapperFragment_to_homeFragment)
+                                }
+                            })
                         } else {
                             Log.d("values", "location null and call requestNewLocationData")
                             requestNewLocationData()
@@ -227,7 +241,6 @@ class WrapperFragment : Fragment() {
         super.onStart()
         requireActivity().findViewById<TextView>(R.id.txtlocation).visibility = View.GONE
         requireActivity().findViewById<ImageView>(R.id.icsrch).visibility = View.GONE
-        requireActivity().findViewById<SwitchCompat>(R.id.conSwitch).visibility = View.GONE
         requireActivity().findViewById<ImageView>(R.id.myLocationBtn).visibility = View.GONE
         requireActivity().findViewById<androidx.appcompat.widget.Toolbar>(R.id.topAppBar).navigationIcon =
             null
@@ -236,18 +249,6 @@ class WrapperFragment : Fragment() {
         requireActivity().findViewById<androidx.appcompat.widget.Toolbar>(R.id.topAppBar)
             .setTitleTextColor(Color.WHITE)
 
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.d("hogyaa", "else part")
-        when (requestCode) {
-            REQUEST_CHECK_SETTINGS -> if (resultCode == Activity.RESULT_OK) {
-                getLastLocation()
-            } else {
-                Log.d("hogyaa", "else part")
-            }
-            else -> super.onActivityResult(requestCode, resultCode,data)
-        }
     }
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
