@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
-            name="lViewModel"
+            name="lViewModel2"
             type="com.example.weatherapp.viewModel.LocationViewModel" />
 
     </data>
@@ -66,45 +67,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <ImageView
-                        android:id="@+id/backbtn"
-                        android:layout_width="@dimen/dimen_20"
-                        android:layout_height="@dimen/dimen_20"
-                        android:layout_marginStart="@dimen/dimen_16"
-                        android:layout_marginBottom="@dimen/dimen_4"
-                        android:background="?selectableItemBackgroundBorderless"
-                        android:contentDescription="search button"
-                        android:src="@drawable/ic_back_button"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/primaryC" />
-
                     <EditText
                         android:id="@+id/search_city"
                         android:layout_width="@dimen/dimen_0"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen_8"
-                        android:layout_marginEnd="@dimen/dimen_8"
-                        android:paddingStart="@dimen/dimen_4"
+                        android:layout_marginStart="@dimen/dimen_16"
                         android:background="@null"
                         android:focusable="true"
                         android:fontFamily="@font/alata_regular"
                         android:hint="Search location"
-                        android:textCursorDrawable="@drawable/cursor"
                         android:inputType="text"
                         android:maxLines="1"
                         android:layout_marginBottom="@dimen/dimen_8"
                         android:textColor="@color/primaryC"
                         android:textColorHint="#B31E40AF"
                         android:textSize="@dimen/dimen_text_20"
+                        android:textCursorDrawable="@drawable/cursor"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/search_btn"
-                        app:layout_constraintStart_toEndOf="@id/backbtn"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:id="@+id/change_btn"
+                        android:id="@+id/search_btn"
                         android:layout_width="@dimen/dimen_20"
                         android:layout_height="@dimen/dimen_20"
                         android:layout_marginEnd="@dimen/dimen_16"
@@ -176,7 +161,7 @@
                     android:id="@+id/lottie"
                     android:layout_width="250dp"
                     android:layout_height="250dp"
-                    android:visibility="@{lViewModel.isInternet()==true?View.GONE:View.VISIBLE}"
+                    android:visibility="@{lViewModel2.isInternet()==true?View.GONE:View.VISIBLE}"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/somethingwentwrong" />
@@ -185,54 +170,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </FrameLayout>
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:orientation="vertical">-->
-<!--        <LinearLayout-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal">-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/backbtn2"-->
-<!--            android:layout_width="30dp"-->
-<!--            android:layout_height="30dp"-->
-<!--            android:layout_marginTop="25dp"-->
-<!--            android:layout_marginLeft="10dp"-->
-<!--            android:src="@drawable/back"/>-->
-
-<!--        <androidx.appcompat.widget.SearchView-->
-<!--            android:id="@+id/searchView"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:layout_margin="15dp"-->
-<!--            app:queryHint="Search Location"-->
-<!--            app:iconifiedByDefault="false"-->
-<!--            app:queryBackground="@android:color/transparent"-->
-<!--            android:background="@drawable/searchbg" />-->
-<!--        </LinearLayout>-->
-
-<!--&lt;!&ndash;        <androidx.recyclerview.widget.RecyclerView&ndash;&gt;-->
-<!--&lt;!&ndash;            android:id="@+id/recyclerView"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;            tools:listitem="@layout/search" />&ndash;&gt;-->
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:orientation="vertical"-->
-<!--            android:gravity="center">-->
-<!--        <com.airbnb.lottie.LottieAnimationView-->
-<!--            android:id="@+id/lottie"-->
-<!--            android:layout_width="250dp"-->
-<!--            android:layout_height="250dp"-->
-<!--            android:visibility="@{lViewModel.isInternet()==true?View.GONE:View.VISIBLE}"-->
-<!--            app:lottie_autoPlay="true"-->
-<!--            app:lottie_loop="true"-->
-<!--            app:lottie_rawRes="@raw/somethingwentwrong" />-->
-<!--        </LinearLayout>-->
-
-<!--    </LinearLayout>-->
 </layout>

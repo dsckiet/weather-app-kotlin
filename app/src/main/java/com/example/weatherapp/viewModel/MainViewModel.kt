@@ -17,9 +17,10 @@ class MainViewModel constructor(application: Application) : AndroidViewModel(app
     private val TAG = "mainViewModel"
     private val repoInstance = WeatherRepository(application)
     lateinit var weather: Call<MainWeather>
+    lateinit var response: Call<List<CityName>>
     val weather_hourly = MutableLiveData<WeatherData>()
     val weather_daily = MutableLiveData<WeatherDataDays>()
-    var daysData : MutableList<DaysWeatherListType> = mutableListOf()
+    var daysData: MutableList<DaysWeatherListType> = mutableListOf()
     var todayHourly: MutableList<HourlyWeatherListType> = mutableListOf()
     var tomorrowHourly: MutableList<HourlyWeatherListType> = mutableListOf()
     var testArray: MutableList<HourlyWeatherListType> = mutableListOf()
@@ -29,20 +30,25 @@ class MainViewModel constructor(application: Application) : AndroidViewModel(app
     val isLoadingMain = MutableLiveData<Boolean>()
     lateinit var temperatureUnit: String
     lateinit var windSpeedUnit: String
-    private var apiQueryUnit : String = ""
+    private var apiQueryUnit: String = ""
+    var cityName = MutableLiveData<List<CityName>>()
 
-    fun getWeatherHourly(isFahrenheit: String?, lat: String?, lon: String?): MutableLiveData<WeatherData> {
+    fun getWeatherHourly(
+        isFahrenheit: String?,
+        lat: String?,
+        lon: String?
+    ): MutableLiveData<WeatherData> {
         isLoadingMain.value = true
-        apiQueryUnit = if(isFahrenheit=="true") "imperial" else "metric"
+        apiQueryUnit = if (isFahrenheit == "true") "imperial" else "metric"
         this.weather = repoInstance.getServicesApiCall(apiQueryUnit, lat, lon)
         weather.enqueue(object : Callback<MainWeather> {
             override fun onResponse(call: Call<MainWeather>, response: Response<MainWeather>) {
                 val weather = response.body()
                 if (weather != null) {
 
-                    temperatureUnit = if(isFahrenheit=="true"){
+                    temperatureUnit = if (isFahrenheit == "true") {
                         "°F"
-                    }else "°C"
+                    } else "°C"
 
                     val hourly = weather.hourly
                     val currentTemp = (weather.current.temp).toInt().toString()
@@ -59,9 +65,13 @@ class MainViewModel constructor(application: Application) : AndroidViewModel(app
                         val time = SimpleDateFormat("h:mm a", Locale.ENGLISH).format(
                             Date((element.dt).toLong() * 1000)
                         )
-                            val listElements =
-                                HourlyWeatherListType(temperature.toString()+temperatureUnit, weatherImage, time.toString())
-                            testArray.add(listElements)
+                        val listElements =
+                            HourlyWeatherListType(
+                                temperature.toString() + temperatureUnit,
+                                weatherImage,
+                                time.toString()
+                            )
+                        testArray.add(listElements)
                     }
                     Log.d(TAG, testArray.toString())
 
@@ -72,7 +82,7 @@ class MainViewModel constructor(application: Application) : AndroidViewModel(app
                         WeatherData(
                             todayHourly,
                             tomorrowHourly,
-                            currentTemp+temperatureUnit,
+                            currentTemp + temperatureUnit,
                             "Feels Like $feelsLikeTemp°",
                             weather.current
                         )
@@ -87,18 +97,22 @@ class MainViewModel constructor(application: Application) : AndroidViewModel(app
         return weather_hourly
     }
 
-    fun getSevenDayWeather(isFahrenheit: String?, lat: String?, lon: String?): MutableLiveData<WeatherDataDays> {
+    fun getSevenDayWeather(
+        isFahrenheit: String?,
+        lat: String?,
+        lon: String?
+    ): MutableLiveData<WeatherDataDays> {
         isLoading.value = true
-        apiQueryUnit = if(isFahrenheit=="true") "imperial" else "metric"
+        apiQueryUnit = if (isFahrenheit == "true") "imperial" else "metric"
         this.weather = repoInstance.getServicesApiCall(apiQueryUnit, lat, lon)
         weather.enqueue(object : Callback<MainWeather> {
             override fun onResponse(call: Call<MainWeather>, response: Response<MainWeather>) {
                 val weather = response.body()
                 if (weather != null) {
 
-                    windSpeedUnit = if(isFahrenheit=="true"){
+                    windSpeedUnit = if (isFahrenheit == "true") {
                         "mi/h"
-                    }else "m/s"
+                    } else "m/s"
 
                     val daily = weather.daily
                     for (element in daily) {
@@ -111,7 +125,7 @@ class MainViewModel constructor(application: Application) : AndroidViewModel(app
                         val sunset = SimpleDateFormat("h:mm a", Locale.ENGLISH).format(
                             Date((element.sunset).toLong() * 1000)
                         )
-                        val pop = "${(element.pop*100).toInt()}%"
+                        val pop = "${(element.pop * 100).toInt()}%"
                         val index2 = element.weather
                         val description = index2[0].description
                         val icon = index2[0].icon
@@ -121,7 +135,7 @@ class MainViewModel constructor(application: Application) : AndroidViewModel(app
                                 date,
                                 "$sunrise, $sunset",
                                 "${element.humidity}%",
-                                "${element.wind_speed.toString()+windSpeedUnit}, ${element.wind_deg}°",
+                                "${element.wind_speed.toString() + windSpeedUnit}, ${element.wind_deg}°",
                                 pop,
                                 "${element.clouds}%",
                                 description,
@@ -142,6 +156,23 @@ class MainViewModel constructor(application: Application) : AndroidViewModel(app
             }
         })
         return weather_daily
+    }
+
+    fun getCityName(lat: String?, lon: String?) : MutableLiveData<List<CityName>> {
+        this.response = repoInstance.getCityName(lat, lon)
+        response.enqueue(object : Callback<List<CityName>> {
+            override fun onResponse(call: Call<List<CityName>>, response: Response<List<CityName>>) {
+                val response = response.body()
+                if (response != null) {
+                     cityName.value = response
+                }
+            }
+
+            override fun onFailure(call: Call<List<CityName>>, t: Throwable) {
+                Log.d("batao", "Error in fetching", t)
+            }
+        })
+        return cityName
     }
 
     fun setData() {
@@ -173,7 +204,7 @@ class MainViewModel constructor(application: Application) : AndroidViewModel(app
 
     fun isInternet(b: Boolean) {
         isInternet.value = b
-        if(!b) {
+        if (!b) {
             isLoadingMain.value = !b
         }
     }

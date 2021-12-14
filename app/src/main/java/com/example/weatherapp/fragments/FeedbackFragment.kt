@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
-import com.example.weatherapp.dataclass.Feedback
+import com.example.weatherapp.dataClass.Feedback
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
@@ -55,8 +55,8 @@ class FeedbackFragment : Fragment() {
             val name = nameInput.text.toString()
             val email = emailInput.text.toString()
             val msg = messageInput.text.toString()
-            if (!NAME_PATTERN.matcher(name).matches()) {
-                nameInput.error = "Please enter a valid name"
+            if (name.isEmpty()) {
+                nameInput.error = "Please enter a name"
                 nameInput.requestFocus()
                 validate = false
             }else {
@@ -74,7 +74,7 @@ class FeedbackFragment : Fragment() {
                 }
             }
             if (validate) {
-                database.child(name).setValue(Feedback(email, msg))
+                database.child(name).setValue(Feedback(email, msg , ratingBar.rating.toString() ))
 
                         Toast.makeText(context, "Response Submitted", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.action_feedbackFragment_to_homeFragment)

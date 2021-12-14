@@ -53,29 +53,46 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:ellipsize="end"
-                            android:maxLength="28"
+                            android:maxLength="20"
+                            android:paddingStart="@dimen/dimen_4"
+                            android:paddingEnd="@dimen/dimen_4"
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/white"
                             android:textSize="20sp" />
 
-                        <ImageView
-                            android:id="@+id/icsrch"
-                            android:layout_width="25dp"
-                            android:layout_height="20dp"
-                            android:layout_gravity="center"
-                            android:shadowColor="@color/white"
-                            android:src="@drawable/searchicon" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end|center"
+                            android:orientation="horizontal">
 
-<!--                        <androidx.appcompat.widget.SwitchCompat-->
-<!--                            android:id="@+id/conSwitch"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_gravity="right"-->
-<!--                            android:layout_marginRight="10dp"-->
-<!--                            android:text="C/F"-->
-<!--                            android:textColor="@color/white"-->
-<!--                            android:textStyle="bold" />-->
+                            <ImageView
+                                android:id="@+id/icsrch"
+                                android:layout_width="25dp"
+                                android:layout_height="20dp"
+                                android:layout_marginEnd="@dimen/dimen_16"
+                                android:shadowColor="@color/white"
+                                android:src="@drawable/searchicon" />
+
+                            <ImageView
+                                android:id="@+id/myLocationBtn"
+                                android:layout_width="25dp"
+                                android:layout_height="20dp"
+                                android:layout_marginEnd="@dimen/dimen_16"
+                                android:shadowColor="@color/white"
+                                android:src="@drawable/ic_baseline_my_location_24" />
+                        </LinearLayout>
+
+                        <!--                        <androidx.appcompat.widget.SwitchCompat-->
+                        <!--                            android:id="@+id/conSwitch"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:layout_gravity="right"-->
+                        <!--                            android:layout_marginRight="10dp"-->
+                        <!--                            android:text="C/F"-->
+                        <!--                            android:textColor="@color/white"-->
+                        <!--                            android:textStyle="bold" />-->
 
                     </androidx.appcompat.widget.Toolbar>
 

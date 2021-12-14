@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
+    tools:context=".fragments.WrapperFragment">
+
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:id="@+id/lottie"-->
+<!--        android:layout_width="250dp"-->
+<!--        android:layout_height="250dp"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:visibility="visible"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        android:layout_gravity="center"-->
+<!--        app:lottie_loop="true"-->
+<!--        app:lottie_rawRes="@raw/loadingicon" />-->
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

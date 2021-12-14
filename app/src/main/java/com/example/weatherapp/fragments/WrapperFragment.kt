@@ -1,16 +1,17 @@
 package com.example.weatherapp.fragments
 
 import android.Manifest
+import android.R.attr
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
-import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
@@ -21,160 +22,83 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
-import com.example.weatherapp.adapter.TodayWeatherRecyclerAdapter
-import com.example.weatherapp.dataClass.CityName
-import com.example.weatherapp.dataClass.HourlyWeatherListType
-import com.example.weatherapp.databinding.FragmentTodayBinding
-import com.example.weatherapp.repository.WeatherRepository
-import com.example.weatherapp.util.InternetConnectivity
 import com.example.weatherapp.util.LocalKeyStorage
-import com.example.weatherapp.util.hideKeyboard
 import com.example.weatherapp.view.MainActivity
+import com.example.weatherapp.viewModel.LocationViewModel
 import com.example.weatherapp.viewModel.MainViewModel
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.android.synthetic.main.fragment_search.*
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.NonCancellable.cancel
+import android.R.attr.data
+import android.app.Application
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+
+import androidx.constraintlayout.motion.widget.Debug.getLocation
+import androidx.lifecycle.Observer
+import com.example.weatherapp.dataClass.CityName
+import com.example.weatherapp.repository.WeatherRepository
+import com.example.weatherapp.util.hideKeyboard
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
 
-class TodayFragment : Fragment() {
 
-    private val viewModel: MainViewModel by viewModels()
-    private lateinit var todayWeatherAdapter: TodayWeatherRecyclerAdapter
-    var todayWeatherHourly: ArrayList<HourlyWeatherListType> = ArrayList()
-    var tomorrowWeatherHourly: ArrayList<HourlyWeatherListType> = ArrayList()
-    lateinit var localKeyStorage: LocalKeyStorage
+class WrapperFragment : Fragment() {
+
     private var mLastLocation: Location? = null
+    lateinit var localKeyStorage: LocalKeyStorage
+    lateinit var contextView: View
+    var cityName : String = ""
+    private lateinit var MviewModel: MainViewModel
     private var mFusedLocationClient: FusedLocationProviderClient? = null
     lateinit var response: Call<List<CityName>>
-    private val repoInstance = WeatherRepository(Application())
-    lateinit var cityName : String
     private val ctx = this
 
-    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         // Inflate the layout for this fragment
-        val binding: FragmentTodayBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_today, container, false)
-        val view = binding.root
-
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
-        binding.lottie.visibility = View.VISIBLE
-
+        val view = inflater.inflate(R.layout.fragment_wrapper, container, false)
+        contextView = view.findViewById(R.id.coordinatorLayout)
+        MviewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         localKeyStorage = LocalKeyStorage(requireContext())
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
-        if (InternetConnectivity.isNetworkAvailable(requireContext())) {
-            //      val isCelsius = arguments?.getBoolean("isCelsius")
-            val isFahrenheit = localKeyStorage.getValue("isFahrenheit")
-            val lat = localKeyStorage.getValue("latitude")
-            val lon = localKeyStorage.getValue("longitude")
-            Log.d("isFahrenheit", isFahrenheit.toString())
-            getAndSetData(binding, isFahrenheit, lat, lon)
-            viewModel.isInternet(true)
-        } else {
-            viewModel.isInternet(false)
-            Toast.makeText(context, "No Internet Connection", Toast.LENGTH_LONG).show()
-        }
-        requireActivity().findViewById<ImageView>(R.id.myLocationBtn).setOnClickListener {
-            getMyLocation()
-        }
-
+        Log.d("hogyaa"," ${localKeyStorage.getValue(LocalKeyStorage.cityName).toString()} hello")
+        getLastLocation()
         return view
     }
 
-    private fun getAndSetData(
-        binding: FragmentTodayBinding,
-        isFahrenheit: String?,
-        lat: String?,
-        lon: String?
-    ) {
-        viewModel.getWeatherHourly(isFahrenheit, lat, lon).observe(viewLifecycleOwner, Observer {
-            todayWeatherHourly.clear()
-            tomorrowWeatherHourly.clear()
-            todayWeatherHourly = it.todayHourly as ArrayList<HourlyWeatherListType>
-            tomorrowWeatherHourly = it.tomorrowHourly as ArrayList<HourlyWeatherListType>
-
-            binding.currentTemp.text = it.temp
-            binding.feelsLikeTemp.text = it.feelsLikeTemp
-            binding.sunriseData.text = SimpleDateFormat("h:mm a", Locale.ENGLISH).format(
-                Date((it.current.sunrise).toLong() * 1000)
-            )
-            binding.sunsetData.text = SimpleDateFormat("h:mm a", Locale.ENGLISH).format(
-                Date((it.current.sunset).toLong() * 1000)
-            )
-            binding.uviData.text = it.current.uvi.toString()
-            binding.pressureData.text = it.current.pressure.toString()
-            binding.humidityData.text = "${it.current.humidity}%"
-            if (isFahrenheit == "true") {
-                binding.windData.text = "${it.current.wind_speed}mi/h"
-                binding.dewPoint.text = "${it.current.dew_point.toInt()}°F"
-            } else {
-                binding.windData.text = "${it.current.wind_speed}m/s"
-                binding.dewPoint.text = "${it.current.dew_point.toInt()}°C"
-            }
-            binding.cloudiness.text = "${it.current.humidity}%"
-            binding.visible.text = "${it.current.visibility} m"
-            binding.windDirection.text = "${it.current.wind_deg}°"
-
-            binding.recyclerV.apply {
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                todayWeatherAdapter = TodayWeatherRecyclerAdapter(requireContext())
-                adapter = todayWeatherAdapter
-                todayWeatherAdapter.setWeather(todayWeatherHourly)
-            }
-
-            binding.recyclerV2.apply {
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                todayWeatherAdapter = TodayWeatherRecyclerAdapter(requireContext())
-                adapter = todayWeatherAdapter
-                todayWeatherAdapter.setWeather(tomorrowWeatherHourly)
-            }
-
-        })
-    }
-
-    @SuppressLint("CutPasteId", "UseCompatLoadingForDrawables")
-    override fun onStart() {
-        super.onStart()
-        requireActivity().findViewById<TextView>(R.id.txtlocation).visibility = View.VISIBLE
-        requireActivity().findViewById<ImageView>(R.id.icsrch).visibility = View.VISIBLE
-        requireActivity().findViewById<ImageView>(R.id.myLocationBtn).visibility = View.VISIBLE
-        requireActivity().findViewById<androidx.appcompat.widget.Toolbar>(R.id.topAppBar).navigationIcon =
-            resources.getDrawable(R.drawable.ic_icon)
-        requireActivity().findViewById<androidx.appcompat.widget.Toolbar>(R.id.topAppBar).title =
-            null
-    }
 
     @SuppressLint("MissingPermission")
-    fun getMyLocation() {
+    private fun getLastLocation() {
         if (checkPermissions()) {
-            if (isLocationEnabled()) {
+            if (isLocationEnabled() && (localKeyStorage.getValue(LocalKeyStorage.latitude) == null || localKeyStorage.getValue(
+                    LocalKeyStorage.longitude
+                ) == null)
+            ) {
+                Log.d("hogyaa"," ${localKeyStorage.getValue(LocalKeyStorage.cityName).toString()} hello")
                 mFusedLocationClient!!.lastLocation
                     .addOnCompleteListener { task ->
                         mLastLocation = task.result
                         if (mLastLocation != null) {
                             val lat = mLastLocation!!.latitude.toString()
                             val lon = mLastLocation!!.longitude.toString()
-                            viewModel.getCityName(lat, lon).observe(viewLifecycleOwner, Observer {
+                            MviewModel.getCityName(lat, lon).observe(viewLifecycleOwner, Observer {
                                 if(it != null) {
                                     cityName = it[0].name
                                     Log.d("batao" , " hello to $cityName")
@@ -184,31 +108,45 @@ class TodayFragment : Fragment() {
                                     localKeyStorage.saveValue(LocalKeyStorage.cityName, cityName)
                                     val view = ctx.requireActivity().findViewById<TextView>(R.id.txtlocation)
                                     view.text = localKeyStorage.getValue(LocalKeyStorage.cityName)
-                                    findNavController().navigate(R.id.action_homeFragment_self)
+                                    findNavController().navigate(R.id.action_wrapperFragment_to_homeFragment)
                                 }
                             })
-
-                            Log.d("values", " latlon $lat $lon")
                         } else {
                             Log.d("values", "location null and call requestNewLocationData")
                             requestNewLocationData()
                         }
                     }
             } else {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setCancelable(false)
-                    .setTitle("Enable Location ?")
-                    .setMessage("Let us help apps determine location")
-                    .setNeutralButton("CANCEL") { dialog, which ->
-                    }
-                    .setPositiveButton("Ok") { dialog, which ->
-                        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                        startForResult.launch(intent)
-                    }
-                    .show()
+                if (localKeyStorage.getValue(LocalKeyStorage.latitude) == null || localKeyStorage.getValue(
+                        LocalKeyStorage.longitude
+                    ) == null
+                ) {
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setCancelable(false)
+                        .setTitle("Enable Location ?")
+                        .setMessage("Let us help apps determine location")
+                        .setNeutralButton("CANCEL") { dialog, which ->
+                            findNavController().navigate(R.id.action_wrapperFragment_to_searchFragment)
+                        }
+                        .setPositiveButton("Ok") { dialog, which ->
+                            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                            startForResult.launch(intent)
+                        }
+                        .show()
+                } else {
+                    findNavController().navigate(R.id.action_wrapperFragment_to_homeFragment)
+                }
+
             }
         } else {
-            requestPermissions()
+            if (localKeyStorage.getValue(LocalKeyStorage.latitude) == null || localKeyStorage.getValue(
+                    LocalKeyStorage.longitude
+                ) == null
+            ) {
+                requestPermissions()
+            } else {
+                findNavController().navigate(R.id.action_wrapperFragment_to_homeFragment)
+            }
         }
     }
 
@@ -248,10 +186,12 @@ class TodayFragment : Fragment() {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Granted. Start getting the location information
                 Log.d("values", "on result permission granted")
-                getMyLocation()
+                getLastLocation()
 
             } else {
                 Log.d("values", "on result permission denied")
+                // go to search fragment
+                findNavController().navigate(R.id.action_wrapperFragment_to_searchFragment)
             }
         }
     }
@@ -278,7 +218,6 @@ class TodayFragment : Fragment() {
             val lon1 = mLastLocation.longitude.toString()
             localKeyStorage.saveValue(LocalKeyStorage.latitude, lat1)
             localKeyStorage.saveValue(LocalKeyStorage.longitude, lon1)
-            Log.d("cityname" , "CityName")
             Log.d("values", " lat1lon1 $lat1 $lon1")
         }
     }
@@ -294,16 +233,31 @@ class TodayFragment : Fragment() {
 
     companion object {
         private const val REQUEST_PERMISSIONS_REQUEST_CODE = 34
+        private const val REQUEST_CHECK_SETTINGS = 36
+    }
+
+    @SuppressLint("CutPasteId")
+    override fun onStart() {
+        super.onStart()
+        requireActivity().findViewById<TextView>(R.id.txtlocation).visibility = View.GONE
+        requireActivity().findViewById<ImageView>(R.id.icsrch).visibility = View.GONE
+        requireActivity().findViewById<ImageView>(R.id.myLocationBtn).visibility = View.GONE
+        requireActivity().findViewById<androidx.appcompat.widget.Toolbar>(R.id.topAppBar).navigationIcon =
+            null
+        requireActivity().findViewById<androidx.appcompat.widget.Toolbar>(R.id.topAppBar).title =
+            "Weather App"
+        requireActivity().findViewById<androidx.appcompat.widget.Toolbar>(R.id.topAppBar)
+            .setTitleTextColor(Color.WHITE)
+
     }
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-                getMyLocation()
+                getLastLocation()
                 Log.d("hogyaa", "if part")
             }else{
-                getMyLocation()
+                getLastLocation()
                 Log.d("hogyaa", "else part")
             }
         }
-
 }

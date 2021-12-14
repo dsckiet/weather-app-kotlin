@@ -25,9 +25,9 @@ class LocalKeyStorage(context: Context) {
     fun getValue(key: String): String? {
         return when(key) {
            "isFahrenheit" -> prefs?.getString(key, "false")
-           "latitude" -> prefs?.getString(key, "20.5937")
-           "longitude" -> prefs?.getString(key, "78.9629")
-           "cityName" -> prefs?.getString(key, "India")
+           "latitude" -> prefs?.getString(key, null)
+           "longitude" -> prefs?.getString(key, null)
+           "cityName" -> prefs?.getString(key, null)
             else -> prefs?.getString(key, null)
         }
     }
