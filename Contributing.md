@@ -40,7 +40,7 @@ Below you will find the process and workflow used to review and merge your chang
 - Wait for the Issue to be assigned to you after which you can start working on it.  
 - Note : Every change in this project should/must have an associated issue.
 
-![issue](https://github.com/LeeRenJie/Community-Website/blob/main/assets/cont-img/issue.png)  
+![issue](https://github.com/shivenducs1136/YourAttendance/blob/main/imgs/issues.png)  
   
 ## Step 1 : Fork the Project 🍴
 - Fork this Repository. This will create a Local Copy of this Repository on your Github Profile. Keep a reference to the original project in `upstream` remote.  
@@ -49,7 +49,7 @@ $ git clone https://github.com/<your-username>/Community-Website
 $ cd <repo-name>  
 $ git remote add upstream https://github.com/HITK-TECH-Community/Community-Website 
 ```  
-![fork](https://github.com/LeeRenJie/Community-Website/blob/main/assets/cont-img/fork.png)  
+![fork](https://github.com/shivenducs1136/YourAttendance/blob/main/imgs/forks.png)  
   
 - Update your forked repo before working.  
 ```  
@@ -63,7 +63,7 @@ Create a new branch. Use its name to identify the issue you are addressing.
 # It will create a new branch with name Branch_Name and switch to that branch 
 $ git checkout -b branch_name  
 ```  
-![createBr](https://github.com/LeeRenJie/Community-Website/blob/main/assets/cont-img/createBr.png)
+![createBr](https://github.com/shivenducs1136/YourAttendance/blob/main/imgs/branch.png)
 
 ## Step 3 : Work on the issue assigned  📕
 - Work on the issue(s) assigned to you.   
@@ -78,7 +78,7 @@ $ git add <some files>
 ```
 - Using GitHub:
 
-![addFiles](https://github.com/LeeRenJie/Community-Website/blob/main/assets/cont-img/addFile.png)  
+![addFiles](https://github.com/shivenducs1136/YourAttendance/blob/main/imgs/uploadfiles.png)  
   
 ## Step 4 : Commit  
 - To commit give a descriptive message for the convenience of reviewer by using terminal:  
@@ -88,7 +88,7 @@ $ git commit -m "message"
 ```
 - Using GitHub
 
-![commit](https://github.com/LeeRenJie/Community-Website/blob/main/assets/cont-img/commit.png)  
+![commit](https://github.com/shivenducs1136/YourAttendance/blob/main/imgs/commit.png)  
 
 ### Commit message guidelines
 - Each commit message consists of a header, a body and a footer. The header has a special format that includes a type, a scope and a subject:
@@ -122,17 +122,12 @@ A good rule of thumb for the commit message is to have a present tense verb, fol
 # To push your work to your remote repository  
 $ git push -u origin <branch_name>  
 ```  
-- Here is how your branch will look.  
-![br](https://github.com/LeeRenJie/Community-Website/blob/main/assets/cont-img/br.png)  
+
   
 ## Step 6 : Pull Request  🎣
 - Go to your repository in the browser and click on compare and pull requests. Then add a title and description to your pull request that explains your contribution. 
 - Compare
-
-![compare](https://github.com/LeeRenJie/Community-Website/blob/main/assets/cont-img/compare.png)
-
 - Create pull request
-![pullrequest](https://github.com/LeeRenJie/Community-Website/blob/main/assets/cont-img/pr.png) 
 
 - Voila! Your Pull Request has been submitted and will be reviewed by the moderators and merged.🥳  
   
